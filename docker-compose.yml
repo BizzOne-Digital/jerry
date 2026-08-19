@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: sodapops_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - sodapops_mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: sodapops_collectibles
+
+volumes:
+  sodapops_mongo_data:

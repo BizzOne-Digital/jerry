@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <rect width="600" height="400" fill="#05070B"/>
+  <path d="M0 300 Q150 200 300 280 T600 260 L600 400 L0 400 Z" fill="#090E17"/>
+  <path d="M0 320 Q200 220 400 300 T600 280" stroke="#D7A84B" stroke-width="1" fill="none" opacity="0.4"/>
+  <rect x="200" y="80" width="200" height="280" rx="10" fill="#090E17" stroke="#3478F6" stroke-width="1"/>
+  <rect x="220" y="100" width="160" height="200" rx="6" fill="#05070B" stroke="#D7A84B" stroke-width="0.5" opacity="0.6"/>
+  <circle cx="300" cy="200" r="50" stroke="#E44B3F" stroke-width="1" fill="none" opacity="0.3"/>
+  <text x="300" y="370" text-anchor="middle" fill="#F5F0E6" font-family="Arial, sans-serif" font-size="12" letter-spacing="4" opacity="0.5">THE VAULT OPENS</text>
+</svg>

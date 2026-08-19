@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" fill="none">
+  <rect width="320" height="480" fill="#05070B"/>
+  <path d="M160 40 C155 120, 150 200, 148 280 C146 340, 145 380, 144 420 C143 440, 142 455, 140 460 C138 465, 135 468, 130 470 C125 472, 120 470, 118 465 C116 460, 115 450, 115 420 C115 380, 118 340, 122 280 C128 200, 140 120, 160 40 Z" fill="#F5F0E6" opacity="0.12"/>
+  <path d="M160 40 C165 120, 170 200, 172 280 C174 340, 175 380, 176 420 C177 440, 178 455, 180 460 C182 465, 185 468, 190 470 C195 472, 200 470, 202 465 C204 460, 205 450, 205 420 C205 380, 202 340, 198 280 C192 200, 180 120, 160 40 Z" fill="#F5F0E6" opacity="0.12"/>
+  <ellipse cx="160" cy="42" rx="22" ry="8" fill="#D7A84B" opacity="0.4"/>
+  <rect x="155" y="200" width="10" height="120" rx="2" fill="#D7A84B" opacity="0.15"/>
+  <text x="160" y="440" text-anchor="middle" fill="#3478F6" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" opacity="0.5">GAME-USED STYLE</text>
+</svg>

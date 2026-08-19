@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" fill="none">
+  <defs>
+    <pattern id="perf" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="0" r="2.5" fill="#05070B"/>
+      <circle cx="6" cy="12" r="2.5" fill="#05070B"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="180" rx="6" fill="#D7A84B"/>
+  <rect x="0" y="0" width="6" height="180" fill="url(#perf)"/>
+  <rect x="394" y="0" width="6" height="180" fill="url(#perf)"/>
+  <rect x="20" y="16" width="360" height="148" rx="4" fill="#F5F0E6"/>
+  <text x="200" y="70" text-anchor="middle" fill="#05070B" font-family="Arial Black, sans-serif" font-size="24">GAME DAY</text>
+  <text x="200" y="100" text-anchor="middle" fill="#E44B3F" font-family="Arial, sans-serif" font-size="12" letter-spacing="3">EXPERIENCE THE ACTION LIVE</text>
+  <text x="200" y="130" text-anchor="middle" fill="#3478F6" font-family="Arial, sans-serif" font-size="10">Affordable tickets · Major sporting events</text>
+</svg>

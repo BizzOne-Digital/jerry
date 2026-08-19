@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#05070B"/>
+  <rect x="60" y="40" width="120" height="168" rx="8" fill="#090E17" stroke="#D7A84B" stroke-width="1" transform="rotate(-8 120 124)"/>
+  <rect x="140" y="60" width="120" height="168" rx="8" fill="#090E17" stroke="#3478F6" stroke-width="1" transform="rotate(2 200 144)"/>
+  <rect x="220" y="50" width="120" height="168" rx="8" fill="#090E17" stroke="#E44B3F" stroke-width="1" transform="rotate(10 280 134)"/>
+  <ellipse cx="200" cy="260" rx="120" ry="16" fill="#D7A84B" opacity="0.1"/>
+  <text x="200" y="285" text-anchor="middle" fill="#F5F0E6" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" opacity="0.5">CURATED STACK</text>
+</svg>

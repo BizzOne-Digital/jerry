@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="90" fill="#05070B" stroke="#D7A84B" stroke-width="2"/>
+  <circle cx="100" cy="100" r="70" stroke="#3478F6" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M100 40 L108 72 L142 72 L114 92 L124 124 L100 104 L76 124 L86 92 L58 72 L92 72 Z" fill="#D7A84B" opacity="0.6"/>
+  <text x="100" y="155" text-anchor="middle" fill="#F5F0E6" font-family="Arial, sans-serif" font-size="9" letter-spacing="2" opacity="0.7">VERIFIED COLLECTOR</text>
+</svg>

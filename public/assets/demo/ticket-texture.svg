@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" fill="none">
+  <defs>
+    <pattern id="perforation" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="0" r="3" fill="#05070B"/>
+      <circle cx="8" cy="16" r="3" fill="#05070B"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="240" rx="8" fill="#F5F0E6"/>
+  <rect x="0" y="0" width="8" height="240" fill="url(#perforation)"/>
+  <rect x="592" y="0" width="8" height="240" fill="url(#perforation)"/>
+  <line x1="200" y1="16" x2="200" y2="224" stroke="#D7A84B" stroke-width="1" stroke-dasharray="6 4" opacity="0.5"/>
+  <text x="100" y="80" text-anchor="middle" fill="#05070B" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="2">ADMIT ONE</text>
+  <text x="100" y="110" text-anchor="middle" fill="#3478F6" font-family="Arial, sans-serif" font-size="12" letter-spacing="4">COLLECTOR&apos;S ARENA</text>
+  <text x="100" y="160" text-anchor="middle" fill="#05070B" font-family="monospace" font-size="11" opacity="0.6">SEC 12 · ROW A · SEAT 07</text>
+  <text x="400" y="90" text-anchor="middle" fill="#05070B" font-family="Arial, sans-serif" font-size="14" font-weight="bold">LIVE EVENT ACCESS</text>
+  <text x="400" y="120" text-anchor="middle" fill="#E44B3F" font-family="Arial, sans-serif" font-size="11">AFFORDABLE GAME TICKETS</text>
+  <rect x="320" y="150" width="160" height="48" rx="4" stroke="#05070B" stroke-width="1" fill="none" opacity="0.3"/>
+  <text x="400" y="180" text-anchor="middle" fill="#05070B" font-family="monospace" font-size="10" opacity="0.5">BARCODE PLACEHOLDER</text>
+</svg>

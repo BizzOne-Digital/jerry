@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" fill="none">
+  <rect width="240" height="320" fill="#05070B"/>
+  <path d="M120 40 L140 100 L200 100 L152 140 L168 200 L120 168 L72 200 L88 140 L40 100 L100 100 Z" fill="#D7A84B" opacity="0.25"/>
+  <rect x="80" y="220" width="80" height="60" rx="4" fill="#090E17" stroke="#D7A84B" stroke-width="1"/>
+  <rect x="95" y="235" width="50" height="30" rx="2" fill="#3478F6" opacity="0.2"/>
+  <text x="120" y="300" text-anchor="middle" fill="#F5F0E6" font-family="Arial, sans-serif" font-size="9" letter-spacing="2" opacity="0.5">CHAMPIONSHIP</text>
+</svg>

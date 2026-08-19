@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <rect width="800" height="200" fill="#05070B"/>
+  <polygon points="0,0 800,0 700,200 100,200" fill="#090E17"/>
+  <polygon points="0,0 800,0 750,200 50,200" fill="none" stroke="#D7A84B" stroke-width="1" opacity="0.4"/>
+  <line x1="0" y1="100" x2="800" y2="60" stroke="#3478F6" stroke-width="2" opacity="0.3"/>
+  <line x1="0" y1="120" x2="800" y2="80" stroke="#E44B3F" stroke-width="1" opacity="0.2"/>
+  <text x="400" y="130" text-anchor="middle" fill="#F5F0E6" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="8" opacity="0.15">BROADCAST</text>
+</svg>

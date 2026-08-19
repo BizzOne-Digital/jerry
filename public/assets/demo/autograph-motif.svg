@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" fill="none">
+  <rect width="500" height="300" fill="#05070B"/>
+  <rect x="40" y="40" width="420" height="220" rx="6" stroke="#D7A84B" stroke-width="1" fill="#090E17" opacity="0.6"/>
+  <path d="M80 200 C120 120, 160 220, 200 160 C240 100, 280 200, 320 140 C360 80, 400 180, 420 120" stroke="#F5F0E6" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <path d="M100 210 C140 170, 180 230, 240 190" stroke="#3478F6" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M260 200 C300 150, 340 210, 400 170" stroke="#E44B3F" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <line x1="60" y1="240" x2="440" y2="240" stroke="#D7A84B" stroke-width="0.5" opacity="0.4"/>
+  <text x="250" y="70" text-anchor="middle" fill="#D7A84B" font-family="Georgia, serif" font-size="13" letter-spacing="3" font-style="italic" opacity="0.7">Authenticated Signature</text>
+  <rect x="360" y="200" width="80" height="40" rx="3" stroke="#D7A84B" stroke-width="1" fill="none" opacity="0.5"/>
+  <text x="400" y="225" text-anchor="middle" fill="#D7A84B" font-family="Arial, sans-serif" font-size="8" letter-spacing="1">COA READY</text>
+</svg>
