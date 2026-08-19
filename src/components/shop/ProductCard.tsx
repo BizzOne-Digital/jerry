@@ -6,9 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { BRAND_IMAGES } from "@/lib/images";
 
-function isSvg(url: string) {
-  return url.endsWith(".svg") || url.includes(".svg?");
-}
+import { isSvgImage } from "@/lib/image-utils";
 
 interface Product {
   _id: string;
@@ -41,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={imageUrl}
           alt={product.images?.[0]?.alt ?? product.name}
           fill
-          unoptimized={isSvg(imageUrl)}
+          unoptimized={isSvgImage(imageUrl)}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width:768px) 50vw, 25vw"
         />

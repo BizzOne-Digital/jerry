@@ -3,27 +3,18 @@ import { PageHero } from "@/components/sections/PageHero";
 import { ServicesHorizontalScroll } from "@/components/sections/ServicesHorizontalScroll";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { getPublishedServices } from "@/lib/data/services";
-import { getPageByKey } from "@/lib/data/pages";
+import { SITE_SERVICES } from "@/lib/data/site-services";
 import { BRAND_IMAGES } from "@/lib/images";
 
 export const metadata = { title: "Services" };
 
-export default async function ServicesPage() {
-  const [page, services] = await Promise.all([getPageByKey("services"), getPublishedServices()]);
-
-  const hero = page?.sections?.find((s) => s.type === "hero");
-
+export default function ServicesPage() {
   return (
     <>
       <PageHero
-        eyebrow={hero?.eyebrow ?? "What We Offer"}
-        heading={hero?.heading ?? "Collector Services"}
-        subheading={
-          hero?.body ??
-          hero?.subheading ??
-          "Buy, sell, trade, authenticate, and experience the game — all under one roof."
-        }
+        eyebrow="What We Offer"
+        heading="Collector Services"
+        subheading="Buy, sell, trade, authenticate, and experience the game — all under one roof."
         imageUrl={BRAND_IMAGES.services}
       />
 
@@ -37,7 +28,7 @@ export default async function ServicesPage() {
         </Container>
       </section>
 
-      <ServicesHorizontalScroll services={services} />
+      <ServicesHorizontalScroll services={SITE_SERVICES} />
 
       <section className="py-20 lg:py-24">
         <Container className="text-center">

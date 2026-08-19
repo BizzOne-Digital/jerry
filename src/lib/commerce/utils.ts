@@ -2,6 +2,43 @@ import type { CartItem } from "@/types";
 
 export const CART_STORAGE_KEY = "sodapops-cart";
 
+function toNumber(value: unknown, fallback = 0): number {
+  const num = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(num) ? num : fallback;
+}
+
+export function normalizeCartItems(raw: unknown): CartItem[] {
+  if (!Array.isArray(raw)) return [];
+
+  const items: CartItem[] = [];
+
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object") continue;
+    const item = entry as Partial<CartItem>;
+    const productId = typeof item.productId === "string" ? item.productId : "";
+    const slug = typeof item.slug === "string" ? item.slug : "";
+    const name = typeof item.name === "string" ? item.name : "";
+    const price = toNumber(item.price);
+    const quantity = Math.max(1, Math.floor(toNumber(item.quantity, 1)));
+
+    if (!productId || !slug || !name || price <= 0) continue;
+
+    items.push({
+      productId,
+      slug,
+      name,
+      price,
+      quantity,
+      ...(typeof item.image === "string" ? { image: item.image } : {}),
+      ...(typeof item.variantId === "string" ? { variantId: item.variantId } : {}),
+      ...(typeof item.variantName === "string" ? { variantName: item.variantName } : {}),
+      ...(typeof item.sku === "string" ? { sku: item.sku } : {}),
+    });
+  }
+
+  return items;
+}
+
 export function calculateCartSubtotal(items: CartItem[]): number {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }

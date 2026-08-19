@@ -5,7 +5,6 @@ import { ProductGrid } from "@/components/shop/ProductGrid";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { queryProducts } from "@/lib/data/products";
 import { DEMO_FEATURED_PRODUCTS } from "@/lib/data/demo-products";
-import { getPageByKey } from "@/lib/data/pages";
 import { BRAND_IMAGES } from "@/lib/images";
 
 export const metadata = { title: "Shop" };
@@ -16,31 +15,47 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
+function parseQueryString(value: string | string[] | undefined): string | undefined {
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+function parsePrice(value: string | string[] | undefined): number | undefined {
+  if (typeof value !== "string" || !value.trim()) return undefined;
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
+}
+
+function parsePage(value: string | string[] | undefined): number {
+  if (typeof value !== "string") return 1;
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 1;
+}
+
 export default async function ShopPage({ searchParams }: Props) {
   const params = await searchParams;
-  const page = await getPageByKey("shop");
 
-  const filters = {
-    category: typeof params.category === "string" ? params.category : undefined,
-    search: typeof params.search === "string" ? params.search : undefined,
-    sort: typeof params.sort === "string" ? params.sort : undefined,
-    minPrice: params.minPrice ? Number(params.minPrice) : undefined,
-    maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
-    page: params.page ? Number(params.page) : 1,
-    limit: 12,
-  };
+  const [result] = await Promise.all([
+    queryProducts({
+      category: parseQueryString(params.category),
+      search: parseQueryString(params.search),
+      sort: parseQueryString(params.sort),
+      minPrice: parsePrice(params.minPrice),
+      maxPrice: parsePrice(params.maxPrice),
+      page: parsePage(params.page),
+      limit: 12,
+    }),
+  ]);
 
-  const result = await queryProducts(filters);
   const products = result.products.length > 0 ? result.products : DEMO_FEATURED_PRODUCTS;
-  const total = result.total > 0 ? result.total : DEMO_FEATURED_PRODUCTS.length;
-  const totalPages = result.totalPages > 0 ? result.totalPages : 1;
+  const total = result.products.length > 0 ? result.total : DEMO_FEATURED_PRODUCTS.length;
+  const totalPages = result.products.length > 0 ? result.totalPages : 1;
   const currentPage = result.page;
 
   return (
     <>
       <PageHero
         eyebrow="Shop"
-        heading={page?.title ?? "The Collectibles Shop"}
+        heading="The Collectibles Shop"
         subheading="Authenticated cards, memorabilia, tickets, and more."
         imageUrl={BRAND_IMAGES.cards}
       />
@@ -54,16 +69,25 @@ export default async function ShopPage({ searchParams }: Props) {
               <p className="mb-6 text-sm text-arena-muted">{total} products found</p>
               <ProductGrid products={products} />
               {totalPages > 1 && (
-                <div className="mt-8 flex justify-center gap-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                    <a
-                      key={p}
-                      href={`/shop?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])), page: String(p) }).toString()}`}
-                      className={`px-3 py-1 text-sm ${p === currentPage ? "text-arena-gold" : "text-arena-muted"}`}
-                    >
-                      {p}
-                    </a>
-                  ))}
+                <div className="mt-8 flex flex-wrap justify-center gap-2">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                    const qs = new URLSearchParams();
+                    for (const [key, value] of Object.entries(params)) {
+                      if (key === "page" || value === undefined) continue;
+                      if (Array.isArray(value)) value.forEach((v) => qs.append(key, v));
+                      else qs.set(key, value);
+                    }
+                    qs.set("page", String(p));
+                    return (
+                      <a
+                        key={p}
+                        href={`/shop?${qs.toString()}`}
+                        className={`px-3 py-1 text-sm ${p === currentPage ? "text-arena-gold" : "text-arena-muted"}`}
+                      >
+                        {p}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>

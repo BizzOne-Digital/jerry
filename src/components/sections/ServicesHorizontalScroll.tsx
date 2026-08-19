@@ -39,8 +39,14 @@ function serviceLabel(title: string, index: number): string {
   return labels[index] ?? title.toUpperCase();
 }
 
+function getHorizontalScrollDistance(track: HTMLElement) {
+  const overflow = track.scrollWidth - window.innerWidth;
+  return Math.max(overflow + 96, window.innerHeight);
+}
+
 export function ServicesHorizontalScroll({ services }: ServicesHorizontalScrollProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const isCompact = useMediaQuery("(max-width: 1023px)");
@@ -48,37 +54,67 @@ export function ServicesHorizontalScroll({ services }: ServicesHorizontalScrollP
   const useVerticalLayout = reduced || isCompact;
 
   useEffect(() => {
-    if (useVerticalLayout || !sectionRef.current || !trackRef.current || services.length === 0) return;
+    if (useVerticalLayout || !sectionRef.current || !pinRef.current || !trackRef.current || services.length === 0) {
+      return;
+    }
 
-    const ctx = gsap.context(() => {
-      const track = trackRef.current!;
+    let ctx: gsap.Context | undefined;
 
-      const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth + 48);
+    const setup = () => {
+      ctx?.revert();
 
-      const tween = gsap.to(track, {
-        x: () => -getDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${getDistance()}`,
-          pin: true,
-          scrub: 0.85,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const idx = Math.min(
-              services.length - 1,
-              Math.round(self.progress * (services.length - 1))
-            );
-            setActiveIndex(idx);
+      const track = trackRef.current;
+      const section = sectionRef.current;
+      const pin = pinRef.current;
+      if (!track || !section || !pin) return;
+
+      ctx = gsap.context(() => {
+        gsap.to(track, {
+          x: () => -Math.max(0, track.scrollWidth - window.innerWidth),
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: () => `+=${getHorizontalScrollDistance(track)}`,
+            pin,
+            pinReparent: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const idx = Math.min(
+                services.length - 1,
+                Math.round(self.progress * (services.length - 1))
+              );
+              setActiveIndex(idx);
+            },
           },
-        },
-      });
+        });
+      }, section);
 
-      void tween;
-    }, sectionRef);
+      ScrollTrigger.refresh();
+    };
 
-    return () => ctx.revert();
+    setup();
+
+    const track = trackRef.current;
+    const resizeObserver = track ? new ResizeObserver(() => ScrollTrigger.refresh()) : null;
+    if (track && resizeObserver) resizeObserver.observe(track);
+
+    const onLoad = () => setup();
+    window.addEventListener("load", onLoad);
+    window.addEventListener("resize", onLoad);
+
+    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+
+    return () => {
+      window.clearTimeout(refreshTimer);
+      window.removeEventListener("load", onLoad);
+      window.removeEventListener("resize", onLoad);
+      resizeObserver?.disconnect();
+      ctx?.revert();
+    };
   }, [useVerticalLayout, services.length]);
 
   if (!services.length) {
@@ -110,10 +146,10 @@ export function ServicesHorizontalScroll({ services }: ServicesHorizontalScrollP
   const total = String(services.length).padStart(2, "0");
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-arena-black">
-      <div className="flex h-screen max-w-full flex-col justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative bg-arena-black">
+      <div ref={pinRef} className="flex min-h-screen flex-col justify-center py-8">
         <div className="mx-auto mb-8 flex w-full max-w-[1400px] items-end justify-between gap-6 px-4 sm:px-6 lg:px-10">
-          <div>
+          <div className="min-w-0">
             <p className="font-display text-[11px] tracking-[0.28em] text-arena-gold uppercase">
               What we offer
             </p>
@@ -131,10 +167,12 @@ export function ServicesHorizontalScroll({ services }: ServicesHorizontalScrollP
           </p>
         </div>
 
-        <div ref={trackRef} className="flex w-max gap-6 px-4 pb-4 sm:px-6 lg:px-10">
-          {services.map((service, index) => (
-            <ServiceCard key={service._id} service={service} index={index} />
-          ))}
+        <div className="w-full overflow-hidden">
+          <div ref={trackRef} className="flex w-max gap-6 px-4 pb-4 will-change-transform sm:px-6 lg:px-10">
+            {services.map((service, index) => (
+              <ServiceCard key={service._id} service={service} index={index} />
+            ))}
+          </div>
         </div>
 
         <p className="mt-6 text-center font-display text-xl text-arena-cream sm:hidden">
@@ -166,7 +204,7 @@ function ServiceCard({
       className={
         staticLayout
           ? "mx-auto flex max-w-4xl flex-col overflow-hidden rounded-sm border border-arena-border/50 bg-arena-surface sm:flex-row"
-          : "flex w-[min(88vw,1100px)] max-w-full shrink-0 flex-col overflow-hidden rounded-sm border border-arena-border/50 bg-arena-surface sm:w-[min(85vw,1100px)] sm:flex-row lg:w-[min(78vw,1100px)]"
+          : "flex w-[85vw] max-w-[1100px] shrink-0 flex-col overflow-hidden rounded-sm border border-arena-border/50 bg-arena-surface sm:w-[75vw] sm:flex-row lg:w-[70vw]"
       }
     >
       <div className="relative aspect-[16/11] w-full shrink-0 sm:aspect-auto sm:min-h-[420px] sm:w-1/2">
@@ -176,9 +214,10 @@ function ServiceCard({
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 45vw"
+          onLoad={() => ScrollTrigger.refresh()}
         />
       </div>
-      <div className="flex w-full flex-col justify-center p-6 sm:w-1/2 sm:p-8 lg:p-10">
+      <div className="flex w-full min-w-0 flex-col justify-center p-6 sm:w-1/2 sm:p-8 lg:p-10">
         <span className="font-display text-2xl text-arena-gold">{number}</span>
         <h3 className="mt-3 font-display text-2xl leading-tight text-arena-cream sm:text-3xl">
           {service.title}

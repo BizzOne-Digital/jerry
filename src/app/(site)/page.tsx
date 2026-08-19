@@ -9,15 +9,13 @@ import { TrustSection } from "@/components/sections/TrustSection";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 import { TicketCta } from "@/components/sections/TicketCta";
 import { FaqPreview } from "@/components/sections/FaqPreview";
-import { ImageGallery } from "@/components/sections/SectionRenderer";
-import { Container } from "@/components/ui/Container";
 import { getPageByKey } from "@/lib/data/pages";
 import { getFeaturedProducts } from "@/lib/data/products";
 import { getPublishedServices } from "@/lib/data/services";
 import { getPublishedOffers } from "@/lib/data/offers";
 import { getFeaturedTestimonials } from "@/lib/data/testimonials";
 import { getPublishedFaqs } from "@/lib/data/faqs";
-import { HOMEPAGE_GALLERY } from "@/lib/images";
+import { BRAND_IMAGES } from "@/lib/images";
 
 export default async function HomePage() {
   const [page, products, services, offers, testimonials, faqs] = await Promise.all([
@@ -43,7 +41,7 @@ export default async function HomePage() {
         }
         cta={hero?.cta ?? { label: "Shop the Vault", href: "/shop" }}
         secondaryCta={hero?.secondaryCta ?? { label: "Sell or Trade", href: "/contact?inquiry=Trade" }}
-        imageUrl={hero?.backgroundImage?.url ?? hero?.image?.url ?? undefined}
+        imageUrl={BRAND_IMAGES.hero}
       />
       <ManifestoSection />
       <CategoryGrid />
@@ -52,11 +50,6 @@ export default async function HomePage() {
       <ServicesGrid services={services} />
       <OffersSection offers={offers} />
       <TrustSection />
-      <section className="py-16">
-        <Container>
-          <ImageGallery images={HOMEPAGE_GALLERY} columns={3} />
-        </Container>
-      </section>
       <TestimonialsCarousel testimonials={testimonials} />
       <TicketCta />
       <FaqPreview faqs={faqs} />

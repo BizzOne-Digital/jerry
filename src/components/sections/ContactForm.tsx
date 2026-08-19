@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
-import { INQUIRY_TYPES } from "@/types";
+import { INQUIRY_TYPES, type InquiryType } from "@/types";
 
 const schema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -22,7 +23,15 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function ContactForm() {
+function parseInquiryType(value: string | null): InquiryType {
+  if (!value) return "Other";
+  const match = INQUIRY_TYPES.find((type) => type.toLowerCase() === value.toLowerCase());
+  return match ?? "Other";
+}
+
+function ContactFormFields() {
+  const params = useSearchParams();
+  const defaultInquiry = useMemo(() => parseInquiryType(params.get("inquiry")), [params]);
   const [submitting, setSubmitting] = useState(false);
   const {
     register,
@@ -31,7 +40,7 @@ export function ContactForm() {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { inquiryType: "Other" },
+    defaultValues: { inquiryType: defaultInquiry },
   });
 
   const onSubmit = async (data: FormData) => {
@@ -45,7 +54,7 @@ export function ContactForm() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Failed to send");
       toast.success("Message sent! We'll be in touch soon.");
-      reset();
+      reset({ inquiryType: defaultInquiry });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -74,5 +83,13 @@ export function ContactForm() {
         {submitting ? "Sending..." : "Send Message"}
       </Button>
     </form>
+  );
+}
+
+export function ContactForm() {
+  return (
+    <Suspense fallback={<div className="h-[520px] animate-pulse rounded-sm bg-arena-surface" />}>
+      <ContactFormFields />
+    </Suspense>
   );
 }

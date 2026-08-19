@@ -1,20 +1,19 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/Container";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { getPageByKey } from "@/lib/data/pages";
-import { getSiteSettings } from "@/lib/data/settings";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/data/defaults";
 import { BRAND_IMAGES } from "@/lib/images";
 
 export const metadata = { title: "Contact" };
 
-export default async function ContactPage() {
-  const [page, settings] = await Promise.all([getPageByKey("contact"), getSiteSettings()]);
+export default function ContactPage() {
+  const { contact } = DEFAULT_SITE_SETTINGS;
 
   return (
     <>
       <PageHero
         eyebrow="Get in Touch"
-        heading={page?.title ?? "Contact Us"}
+        heading="Contact Us"
         subheading="Questions about buying, selling, or trading? We're here to help."
         imageUrl={BRAND_IMAGES.contact}
       />
@@ -28,17 +27,17 @@ export default async function ContactPage() {
               <div className="arena-glow rounded-sm bg-arena-surface p-6">
                 <h2 className="font-display text-lg text-arena-gold">Contact Info</h2>
                 <p className="mt-4 text-sm text-arena-muted">
-                  <a href={`mailto:${settings.contact?.email}`} className="hover:text-arena-cream">
-                    {settings.contact?.email}
+                  <a href={`mailto:${contact.email}`} className="hover:text-arena-cream">
+                    {contact.email}
                   </a>
                 </p>
                 <p className="mt-2 text-sm text-arena-muted">
-                  <a href={settings.contact?.phoneLink} className="hover:text-arena-cream">
-                    {settings.contact?.phone}
+                  <a href={contact.phoneLink} className="hover:text-arena-cream">
+                    {contact.phone}
                   </a>
                 </p>
-                {settings.contact?.businessHours && (
-                  <p className="mt-4 text-sm text-arena-muted">{settings.contact.businessHours}</p>
+                {contact.businessHours && (
+                  <p className="mt-4 text-sm text-arena-muted">{contact.businessHours}</p>
                 )}
               </div>
             </div>

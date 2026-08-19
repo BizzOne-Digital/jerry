@@ -13,63 +13,88 @@ interface CinematicIntroProps {
   oncePerSession?: boolean;
 }
 
-function hasSeenIntro(oncePerSession: boolean) {
-  if (typeof window === "undefined") return true;
-  return oncePerSession ? Boolean(sessionStorage.getItem(INTRO_KEY)) : false;
+function readIntroSeen(oncePerSession: boolean): boolean {
+  try {
+    return oncePerSession ? Boolean(sessionStorage.getItem(INTRO_KEY)) : false;
+  } catch {
+    return true;
+  }
 }
 
-export function CinematicIntro({ enabled = true, oncePerSession = true }: CinematicIntroProps) {
+export function CinematicIntro({ enabled = false, oncePerSession = true }: CinematicIntroProps) {
   const reduced = useReducedMotion();
-  const shouldPlay = enabled && !hasSeenIntro(oncePerSession);
+  const [ready, setReady] = useState(false);
+  const [shouldPlay, setShouldPlay] = useState(false);
   const [visible, setVisible] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const finish = useCallback(() => {
-    sessionStorage.setItem(INTRO_KEY, "1");
+    try {
+      sessionStorage.setItem(INTRO_KEY, "1");
+    } catch {
+      /* ignore storage errors */
+    }
     setVisible(false);
+    setShouldPlay(false);
   }, []);
 
   useEffect(() => {
-    if (!shouldPlay || reduced) return;
-    const timer = window.setTimeout(() => setVisible(true), 0);
-    return () => window.clearTimeout(timer);
-  }, [shouldPlay, reduced]);
+    if (!enabled) {
+      setReady(true);
+      return;
+    }
+    setShouldPlay(!readIntroSeen(oncePerSession));
+    setReady(true);
+  }, [enabled, oncePerSession]);
 
   useEffect(() => {
-    if (!shouldPlay || !reduced) return;
+    if (!ready || !shouldPlay || reduced) return;
+    const timer = window.setTimeout(() => setVisible(true), 0);
+    return () => window.clearTimeout(timer);
+  }, [ready, shouldPlay, reduced]);
+
+  useEffect(() => {
+    if (!ready || !shouldPlay || !reduced) return;
     const timer = window.setTimeout(finish, 250);
     return () => window.clearTimeout(timer);
-  }, [shouldPlay, reduced, finish]);
+  }, [ready, shouldPlay, reduced, finish]);
 
   useEffect(() => {
     if (!visible || !overlayRef.current || reduced) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        onComplete: finish,
-      });
+    try {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          onComplete: finish,
+        });
 
-      tl.set(".intro-scan", { scaleX: 0, opacity: 1 })
-        .to(".intro-scan", { scaleX: 1, duration: 0.35, ease: "power2.inOut" })
-        .to(".intro-bloom", { opacity: 0.45, duration: 0.5 }, "-=0.1")
-        .from(".intro-card", { rotateY: -28, rotateX: 12, opacity: 0, duration: 0.7 }, "-=0.2")
-        .to(".intro-foil", { xPercent: 120, duration: 0.8, ease: "power2.inOut" }, "-=0.5")
-        .from(".intro-word-collect", { x: -80, opacity: 0, duration: 0.35 }, "-=0.35")
-        .from(".intro-word-trade", { y: 60, opacity: 0, duration: 0.35 }, "-=0.15")
-        .from(".intro-word-experience", { x: 80, opacity: 0, duration: 0.35 }, "-=0.15")
-        .to(".intro-word", { opacity: 0, duration: 0.2, stagger: 0.04 })
-        .from(".intro-wordmark", { scale: 0.88, opacity: 0, duration: 0.45 })
-        .from(".intro-tagline", { y: 16, opacity: 0, duration: 0.35 }, "-=0.2")
-        .to(".intro-panel-left", { xPercent: -100, duration: 0.55, ease: "power4.inOut" }, "+=0.15")
-        .to(".intro-panel-right", { xPercent: 100, duration: 0.55, ease: "power4.inOut" }, "<")
-        .to(overlayRef.current, { opacity: 0, duration: 0.35 }, "-=0.15");
-    }, overlayRef);
+        tl.set(".intro-scan", { scaleX: 0, opacity: 1 })
+          .to(".intro-scan", { scaleX: 1, duration: 0.35, ease: "power2.inOut" })
+          .to(".intro-bloom", { opacity: 0.45, duration: 0.5 }, "-=0.1")
+          .from(".intro-card", { rotateY: -28, rotateX: 12, opacity: 0, duration: 0.7 }, "-=0.2")
+          .to(".intro-foil", { xPercent: 120, duration: 0.8, ease: "power2.inOut" }, "-=0.5")
+          .from(".intro-word-collect", { x: -80, opacity: 0, duration: 0.35 }, "-=0.35")
+          .from(".intro-word-trade", { y: 60, opacity: 0, duration: 0.35 }, "-=0.15")
+          .from(".intro-word-experience", { x: 80, opacity: 0, duration: 0.35 }, "-=0.15")
+          .to(".intro-word", { opacity: 0, duration: 0.2, stagger: 0.04 })
+          .from(".intro-wordmark", { scale: 0.88, opacity: 0, duration: 0.45 })
+          .from(".intro-tagline", { y: 16, opacity: 0, duration: 0.35 }, "-=0.2")
+          .to(".intro-panel-left", { xPercent: -100, duration: 0.55, ease: "power4.inOut" }, "+=0.15")
+          .to(".intro-panel-right", { xPercent: 100, duration: 0.55, ease: "power4.inOut" }, "<")
+          .to(overlayRef.current, { opacity: 0, duration: 0.35 }, "-=0.15");
+      }, overlayRef);
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    } catch {
+      finish();
+      return undefined;
+    }
   }, [visible, reduced, finish]);
 
-  if (shouldPlay && reduced) {
+  if (!ready || !shouldPlay) return null;
+
+  if (reduced) {
     return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-arena-black">
         <Logo variant="full" />

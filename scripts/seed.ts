@@ -86,7 +86,7 @@ async function seedPages() {
           cta: { label: "Shop Collectibles", href: "/shop" },
           secondaryCta: { label: "Sell or Trade", href: "/contact?inquiry=Sell" },
           image: img("arena-hero-glow.svg", "Layered collectible cards in cinematic arena lighting"),
-          backgroundImage: img("stadium-lights.svg", "Stadium lights over midnight arena"),
+          backgroundImage: { url: "/assets/hero-background.png", alt: "Graded card and memorabilia in stadium lighting" },
         },
         {
           id: "ticker",

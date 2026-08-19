@@ -8,9 +8,14 @@ import type { PageKey } from "@/types";
 export const getPageByKey = (key: PageKey) =>
   unstable_cache(
     async (): Promise<SerializedPage | null> => {
-      await connectDB();
-      const page = await Page.findOne({ key, status: "published" }).lean();
-      return page ? JSON.parse(JSON.stringify(page)) : null;
+      try {
+        await connectDB();
+        const page = await Page.findOne({ key, status: "published" }).lean();
+        return page ? JSON.parse(JSON.stringify(page)) : null;
+      } catch (error) {
+        console.error(`getPageByKey(${key}):`, error);
+        return null;
+      }
     },
     [`page-${key}`],
     { tags: [CACHE_TAGS.pages], revalidate: 60 }

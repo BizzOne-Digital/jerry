@@ -22,7 +22,7 @@ interface PublicShellProps {
 export function PublicShell({
   children,
   announcementText,
-  enableIntro = true,
+  enableIntro = false,
   introOncePerSession = true,
   footer,
 }: PublicShellProps) {

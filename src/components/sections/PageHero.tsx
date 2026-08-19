@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandImage } from "@/components/ui/BrandImage";
 import { Container } from "@/components/ui/Container";
 
 interface PageHeroProps {
@@ -11,7 +11,7 @@ interface PageHeroProps {
 export function PageHero({ eyebrow, heading, subheading, imageUrl }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden py-16 sm:py-24">
-      <Image src={imageUrl} alt="" fill className="object-cover opacity-35" sizes="100vw" priority />
+      <BrandImage src={imageUrl} alt="" fill className="object-cover opacity-35" sizes="100vw" priority />
       <div className="absolute inset-0 arena-gradient opacity-90" />
       <Container className="relative">
         {eyebrow && (

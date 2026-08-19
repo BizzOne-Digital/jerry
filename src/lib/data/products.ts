@@ -98,9 +98,14 @@ export const getFeaturedProducts = unstable_cache(
 export const getProductBySlug = (slug: string) =>
   unstable_cache(
     async () => {
-      await connectDB();
-      const product = await Product.findOne({ slug, status: "published" }).lean();
-      return product ? JSON.parse(JSON.stringify(product)) : null;
+      try {
+        await connectDB();
+        const product = await Product.findOne({ slug, status: "published" }).lean();
+        return product ? JSON.parse(JSON.stringify(product)) : null;
+      } catch (error) {
+        console.error(`getProductBySlug(${slug}):`, error);
+        return null;
+      }
     },
     [`product-${slug}`],
     { tags: [CACHE_TAGS.products], revalidate: 60 }

@@ -7,9 +7,14 @@ import type { SerializedService } from "@/types/cms";
 
 export const getPublishedServices = unstable_cache(
   async (): Promise<SerializedService[]> => {
-    await connectDB();
-    const services = await Service.find({ status: "published" }).sort({ sortOrder: 1 }).lean();
-    return JSON.parse(JSON.stringify(services));
+    try {
+      await connectDB();
+      const services = await Service.find({ status: "published" }).sort({ sortOrder: 1 }).lean();
+      return JSON.parse(JSON.stringify(services));
+    } catch (error) {
+      console.error("getPublishedServices:", error);
+      return [];
+    }
   },
   ["published-services"],
   { tags: [CACHE_TAGS.services], revalidate: 60 }
@@ -18,9 +23,14 @@ export const getPublishedServices = unstable_cache(
 export const getServiceBySlug = (slug: string) =>
   unstable_cache(
     async (): Promise<SerializedService | null> => {
-      await connectDB();
-      const service = await Service.findOne({ slug, status: "published" }).lean();
-      return service ? JSON.parse(JSON.stringify(service)) : null;
+      try {
+        await connectDB();
+        const service = await Service.findOne({ slug, status: "published" }).lean();
+        return service ? JSON.parse(JSON.stringify(service)) : null;
+      } catch (error) {
+        console.error(`getServiceBySlug(${slug}):`, error);
+        return null;
+      }
     },
     [`service-${slug}`],
     { tags: [CACHE_TAGS.services], revalidate: 60 }

@@ -6,11 +6,16 @@ import type { SerializedTestimonial } from "@/types/cms";
 
 export const getPublishedTestimonials = unstable_cache(
   async (): Promise<SerializedTestimonial[]> => {
-    await connectDB();
-    const testimonials = await Testimonial.find({ status: "published" })
-      .sort({ featured: -1, sortOrder: 1 })
-      .lean();
-    return JSON.parse(JSON.stringify(testimonials));
+    try {
+      await connectDB();
+      const testimonials = await Testimonial.find({ status: "published" })
+        .sort({ featured: -1, sortOrder: 1 })
+        .lean();
+      return JSON.parse(JSON.stringify(testimonials));
+    } catch (error) {
+      console.error("getPublishedTestimonials:", error);
+      return [];
+    }
   },
   ["published-testimonials"],
   { tags: [CACHE_TAGS.testimonials], revalidate: 60 }
@@ -18,12 +23,17 @@ export const getPublishedTestimonials = unstable_cache(
 
 export const getFeaturedTestimonials = unstable_cache(
   async (limit = 6): Promise<SerializedTestimonial[]> => {
-    await connectDB();
-    const testimonials = await Testimonial.find({ status: "published" })
-      .sort({ featured: -1, sortOrder: 1 })
-      .limit(limit)
-      .lean();
-    return JSON.parse(JSON.stringify(testimonials));
+    try {
+      await connectDB();
+      const testimonials = await Testimonial.find({ status: "published" })
+        .sort({ featured: -1, sortOrder: 1 })
+        .limit(limit)
+        .lean();
+      return JSON.parse(JSON.stringify(testimonials));
+    } catch (error) {
+      console.error("getFeaturedTestimonials:", error);
+      return [];
+    }
   },
   ["featured-testimonials"],
   { tags: [CACHE_TAGS.testimonials], revalidate: 60 }

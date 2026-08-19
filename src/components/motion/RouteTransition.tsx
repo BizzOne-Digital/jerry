@@ -14,11 +14,16 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
     const el = ref.current;
     if (!el || reduced) return;
 
-    gsap.fromTo(
-      el,
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }
-    );
+    try {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }
+      );
+    } catch {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    }
   }, [pathname, reduced]);
 
   return (

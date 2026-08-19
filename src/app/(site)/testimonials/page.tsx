@@ -1,9 +1,7 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { getPublishedTestimonials } from "@/lib/data/testimonials";
 import { SITE_TESTIMONIALS } from "@/lib/data/site-testimonials";
-import { getPageByKey } from "@/lib/data/pages";
 import { BRAND_IMAGES } from "@/lib/images";
 
 export const metadata = { title: "Testimonials" };
@@ -17,27 +15,19 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-export default async function TestimonialsPage() {
-  const [page, testimonials] = await Promise.all([
-    getPageByKey("testimonials"),
-    getPublishedTestimonials(),
-  ]);
-
-  const dbItems = testimonials.filter((t) => !t.isDemo);
-  const items = dbItems.length > 0 ? dbItems : SITE_TESTIMONIALS;
-
+export default function TestimonialsPage() {
   return (
     <>
       <PageHero
         eyebrow="Reviews"
-        heading={page?.title ?? "Collector Stories"}
+        heading="Collector Stories"
         subheading="Real feedback from real collectors."
         imageUrl={BRAND_IMAGES.handshake}
       />
       <section className="py-16">
         <Container>
           <div className="grid gap-6 md:grid-cols-2">
-            {items.map((t, i) => (
+            {SITE_TESTIMONIALS.map((t, i) => (
               <ScrollReveal key={t._id} delay={i * 0.06}>
                 <blockquote className="arena-glow rounded-sm bg-arena-surface p-6">
                   <div className="mb-4 flex items-center gap-3">
@@ -50,9 +40,7 @@ export default async function TestimonialsPage() {
                     <div>
                       <cite className="not-italic font-display text-arena-cream">{t.customerName}</cite>
                       {t.title && <p className="text-xs text-arena-muted">{t.title}</p>}
-                      {"location" in t && t.location && (
-                        <p className="text-xs text-arena-muted">{t.location}</p>
-                      )}
+                      {t.location && <p className="text-xs text-arena-muted">{t.location}</p>}
                       {t.rating && (
                         <p className="text-xs text-arena-gold" aria-label={`${t.rating} out of 5 stars`}>
                           {"★".repeat(t.rating)}

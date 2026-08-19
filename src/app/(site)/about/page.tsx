@@ -1,31 +1,23 @@
-import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { BrandImage } from "@/components/ui/BrandImage";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { getPageByKey } from "@/lib/data/pages";
 import { BRAND_IMAGES } from "@/lib/images";
 
 export const metadata = { title: "About" };
 
-export default async function AboutPage() {
-  const page = await getPageByKey("about");
-  const hero = page?.sections?.find((s) => s.type === "hero");
-
+export default function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow={hero?.eyebrow ?? "Our Story"}
-        heading={hero?.heading ?? "Built for the love of the game."}
-        subheading={
-          hero?.body ??
-          "Your trusted source for sports collectibles, autographs, memorabilia, and affordable game tickets."
-        }
+        eyebrow="Our Story"
+        heading="Built for the love of the game."
+        subheading="Your trusted source for sports collectibles, autographs, memorabilia, and affordable game tickets."
         imageUrl={BRAND_IMAGES.stadium}
       />
 
-      {/* Section 1: text | image */}
       <section className="py-20 lg:py-28">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
@@ -54,7 +46,7 @@ export default async function AboutPage() {
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
               <div className="relative aspect-[4/3] overflow-hidden rounded-sm arena-glow">
-                <Image
+                <BrandImage
                   src={BRAND_IMAGES.about1}
                   alt="Sports collectibles and graded cards on display"
                   fill
@@ -67,7 +59,6 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      {/* Section 2: centered text */}
       <section className="border-y border-arena-border/60 bg-arena-navy/45 py-20 lg:py-24">
         <Container className="mx-auto max-w-3xl text-center">
           <ScrollReveal>
@@ -101,13 +92,12 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      {/* Section 3: image | text */}
       <section className="py-20 lg:py-28">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <ScrollReveal className="order-2 lg:order-1">
               <div className="relative aspect-[4/3] overflow-hidden rounded-sm arena-glow">
-                <Image
+                <BrandImage
                   src={BRAND_IMAGES.about2}
                   alt="Collector reviewing cards and memorabilia"
                   fill
@@ -152,7 +142,6 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      {/* Process strip — text only */}
       <section className="border-t border-arena-border/60 bg-arena-black py-16">
         <Container>
           <ScrollReveal>

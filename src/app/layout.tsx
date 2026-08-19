@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Oswald, DM_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
-import { getSiteSettings } from "@/lib/data/settings";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/data/defaults";
 import { getSiteUrl } from "@/lib/env";
 
 const oswald = Oswald({
@@ -25,15 +25,13 @@ const cormorant = Cormorant_Garamond({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const { general } = DEFAULT_SITE_SETTINGS;
   return {
     title: {
-      default: settings.general?.defaultSeoTitle ?? "Sodapops Collectibles",
-      template: `%s | ${settings.general?.companyName ?? "Sodapops Collectibles"}`,
+      default: general.defaultSeoTitle,
+      template: `%s | ${general.companyName}`,
     },
-    description:
-      settings.general?.defaultSeoDescription ??
-      "Premium sports cards, authenticated memorabilia, and game-day experiences.",
+    description: general.defaultSeoDescription,
     metadataBase: new URL(getSiteUrl()),
   };
 }

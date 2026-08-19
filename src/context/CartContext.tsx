@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { CartItem } from "@/types";
-import { CART_STORAGE_KEY, calculateCartSubtotal } from "@/lib/commerce/utils";
+import { CART_STORAGE_KEY, calculateCartSubtotal, normalizeCartItems } from "@/lib/commerce/utils";
 
 interface CartContextValue {
   items: CartItem[];
@@ -38,7 +38,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     queueMicrotask(() => {
       try {
         const stored = localStorage.getItem(CART_STORAGE_KEY);
-        if (stored && !cancelled) setItems(JSON.parse(stored) as CartItem[]);
+        if (stored && !cancelled) setItems(normalizeCartItems(JSON.parse(stored)));
       } catch {
         /* ignore corrupt storage */
       }
