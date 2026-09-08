@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" fill="none">
+  <rect width="300" height="600" fill="#05070B"/>
+  <rect x="20" y="20" width="260" height="560" rx="4" fill="#090E17" stroke="#D7A84B" stroke-width="1"/>
+  <line x1="40" y1="80" x2="260" y2="80" stroke="#D7A84B" stroke-width="0.5" opacity="0.4"/>
+  <line x1="40" y1="120" x2="200" y2="120" stroke="#3478F6" stroke-width="0.5" opacity="0.3"/>
+  <rect x="60" y="180" width="180" height="240" rx="6" stroke="#D7A84B" stroke-width="1" fill="none" opacity="0.5"/>
+  <circle cx="150" cy="300" r="40" stroke="#E44B3F" stroke-width="1" fill="none" opacity="0.3"/>
+  <rect x="80" y="460" width="140" height="8" rx="2" fill="#D7A84B" opacity="0.2"/>
+  <rect x="80" y="480" width="100" height="8" rx="2" fill="#3478F6" opacity="0.15"/>
+  <text x="150" y="540" text-anchor="middle" fill="#F5F0E6" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" opacity="0.5">VAULT PANEL</text>
+</svg>

@@ -1,0 +1,66 @@
+import { BRAND_IMAGES } from "@/lib/images";
+import type { HorizontalService } from "@/components/sections/ServicesHorizontalScroll";
+
+export const SITE_SERVICES: HorizontalService[] = [
+  {
+    _id: "svc-1",
+    title: "Buy Collectible Cards",
+    slug: "buy-collectible-cards",
+    shortDescription: "Rookie gems, vintage staples, and graded cards with transparent condition notes.",
+    overview:
+      "Whether you're chasing a grail card or filling out a set, our buying experience is built for collectors who value condition transparency and fair market pricing.",
+    cardImage: { url: BRAND_IMAGES.cards, alt: "Collectible cards" },
+    benefits: ["Wide range of sports and eras", "Clear condition descriptions", "Fair pricing with compare-at values", "Secure shipping on every order"],
+    cta: { label: "Shop Cards", href: "/shop?category=Cards" },
+  },
+  {
+    _id: "svc-2",
+    title: "Selling Your Collection",
+    slug: "selling",
+    shortDescription: "Turn your collection into cash with fair market pricing and honest evaluations.",
+    overview: "Tell us what you have. We review condition, market demand, and timing with you—no pressure, no vague offers.",
+    cardImage: { url: BRAND_IMAGES.trading, alt: "Selling cards" },
+    benefits: ["Fair offers within 48 hours", "Individual items or full collections", "Transparent grading notes", "Flexible payout options"],
+    cta: { label: "Sell Your Collection", href: "/contact?inquiry=Sell" },
+  },
+  {
+    _id: "svc-3",
+    title: "Trading Cards & Memorabilia",
+    slug: "trading",
+    shortDescription: "Swap pieces with fellow collectors through our trade desk.",
+    overview: "Have something you want to move for a different piece? Our trade process is straightforward and collector-first.",
+    cardImage: { url: BRAND_IMAGES.collection, alt: "Trading collectibles" },
+    benefits: ["Value-based trade evaluations", "Cards, memorabilia, and more", "Clear condition matching", "No hidden fees"],
+    cta: { label: "Start a Trade", href: "/contact?inquiry=Trade" },
+  },
+  {
+    _id: "svc-4",
+    title: "Authenticated Autographs",
+    slug: "authenticated-autographs",
+    shortDescription: "Signed memorabilia with clear COA and authentication details.",
+    overview: "Every autograph listing tells you exactly what documentation is included — no surprises.",
+    cardImage: { url: BRAND_IMAGES.autographs, alt: "Authenticated autographs" },
+    benefits: ["COA references where available", "Clear authentication labels", "Signature placement photos", "Secure packaging"],
+    cta: { label: "Shop Autographs", href: "/shop?category=Autographs" },
+  },
+  {
+    _id: "svc-5",
+    title: "Sports Memorabilia",
+    slug: "sports-memorabilia",
+    shortDescription: "Display pieces and collectible memorabilia for your showcase.",
+    overview: "Memorabilia brings the game into your space with honest condition notes and provenance information where available.",
+    cardImage: { url: BRAND_IMAGES.memorabilia, alt: "Sports memorabilia" },
+    benefits: ["Curated display pieces", "Honest condition notes", "Secure shipping for fragile items", "Authentication where applicable"],
+    cta: { label: "Shop Memorabilia", href: "/shop?category=Memorabilia" },
+  },
+  {
+    _id: "svc-6",
+    title: "Affordable Game Tickets",
+    slug: "affordable-game-tickets",
+    shortDescription: "Request affordable tickets to MLB, NFL, and other major sporting events.",
+    overview: "Nothing replaces the energy of a live game. We help fans find affordable tickets through our ticket request service.",
+    cardImage: { url: BRAND_IMAGES.tickets, alt: "Game tickets" },
+    benefits: ["Competitive pricing on major events", "MLB, NFL, and more", "Personal seat assistance", "No hidden request fees"],
+    cta: { label: "Request Tickets", href: "/contact?inquiry=Tickets" },
+  },
+];

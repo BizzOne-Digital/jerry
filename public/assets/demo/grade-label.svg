@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 160" fill="none">
+  <rect width="280" height="160" rx="8" fill="#F5F0E6"/>
+  <rect x="8" y="8" width="264" height="144" rx="6" stroke="#05070B" stroke-width="1" fill="none"/>
+  <text x="20" y="36" fill="#05070B" font-family="Arial Black, sans-serif" font-size="14">GEM MT</text>
+  <text x="20" y="56" fill="#3478F6" font-family="Arial, sans-serif" font-size="10" letter-spacing="2">10</text>
+  <rect x="20" y="70" width="120" height="2" fill="#D7A84B" opacity="0.5"/>
+  <text x="20" y="90" fill="#05070B" font-family="Arial, sans-serif" font-size="8" opacity="0.6">CONDITION LABEL</text>
+  <text x="20" y="110" fill="#05070B" font-family="monospace" font-size="7" opacity="0.4">#CA-2026-DEMO</text>
+  <rect x="180" y="20" width="80" height="120" rx="4" fill="#05070B" opacity="0.08"/>
+  <circle cx="220" cy="80" r="24" stroke="#E44B3F" stroke-width="1" fill="none" opacity="0.4"/>
+</svg>

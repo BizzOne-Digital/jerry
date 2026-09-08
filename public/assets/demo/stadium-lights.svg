@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <radialGradient id="beam1" cx="0.5" cy="0" r="0.8">
+      <stop offset="0%" stop-color="#F5F0E6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#05070B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="beam2" cx="0.5" cy="0" r="0.7">
+      <stop offset="0%" stop-color="#D7A84B" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#05070B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="400">
+      <stop offset="0%" stop-color="#090E17"/>
+      <stop offset="100%" stop-color="#05070B"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#sky)"/>
+  <ellipse cx="200" cy="380" rx="280" ry="120" fill="#05070B"/>
+  <ellipse cx="600" cy="380" rx="280" ry="120" fill="#05070B"/>
+  <path d="M120 60 L60 380 L200 380 Z" fill="url(#beam1)" opacity="0.6"/>
+  <path d="M280 40 L180 380 L380 380 Z" fill="url(#beam2)" opacity="0.5"/>
+  <path d="M520 50 L420 380 L620 380 Z" fill="url(#beam1)" opacity="0.55"/>
+  <path d="M680 70 L600 380 L760 380 Z" fill="url(#beam2)" opacity="0.45"/>
+  <rect x="115" y="30" width="10" height="24" rx="2" fill="#D7A84B"/>
+  <rect x="275" y="20" width="10" height="24" rx="2" fill="#D7A84B"/>
+  <rect x="515" y="25" width="10" height="24" rx="2" fill="#D7A84B"/>
+  <rect x="675" y="45" width="10" height="24" rx="2" fill="#D7A84B"/>
+  <circle cx="120" cy="28" r="14" fill="#F5F0E6" opacity="0.9"/>
+  <circle cx="280" cy="18" r="14" fill="#F5F0E6" opacity="0.85"/>
+  <circle cx="520" cy="23" r="14" fill="#F5F0E6" opacity="0.9"/>
+  <circle cx="680" cy="43" r="14" fill="#F5F0E6" opacity="0.8"/>
+  <line x1="0" y1="360" x2="800" y2="360" stroke="#D7A84B" stroke-width="0.5" opacity="0.3"/>
+</svg>

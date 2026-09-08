@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#3478F6" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#D7A84B" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#05070B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="#05070B"/>
+  <ellipse cx="400" cy="250" rx="350" ry="200" fill="url(#glow)"/>
+  <rect x="280" y="120" width="240" height="320" rx="12" fill="#090E17" stroke="#D7A84B" stroke-width="2" transform="rotate(-6 400 280)"/>
+  <rect x="300" y="100" width="200" height="300" rx="10" fill="#090E17" stroke="#3478F6" stroke-width="1.5" transform="rotate(4 400 250)"/>
+  <rect x="320" y="140" width="160" height="240" rx="8" fill="#05070B" stroke="#E44B3F" stroke-width="1" opacity="0.8"/>
+  <path d="M0 420 L800 380" stroke="#D7A84B" stroke-width="0.5" opacity="0.3"/>
+  <text x="400" y="460" text-anchor="middle" fill="#F5F0E6" font-family="Arial Black, sans-serif" font-size="22" letter-spacing="6" opacity="0.8">THE COLLECTOR&apos;S ARENA</text>
+</svg>
