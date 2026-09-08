@@ -7,6 +7,8 @@ import { getEnv } from "@/lib/env";
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 const ALLOWED_MIMES = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
+const PROJECT_UPLOAD_DIR = "uploads";
+const DEFAULT_UPLOAD_ROOT = path.join(process.cwd(), PROJECT_UPLOAD_DIR);
 
 const MIME_TO_EXT: Record<string, string> = {
   "image/jpeg": "webp",
@@ -15,9 +17,22 @@ const MIME_TO_EXT: Record<string, string> = {
   "image/avif": "webp",
 };
 
+function normalizeRelativeUploadDir(uploadDir: string): string {
+  return uploadDir.replace(/^\.\//, "").replace(/\/$/, "");
+}
+
 export function resolveUploadRoot(): string {
   const { UPLOAD_DIR } = getEnv();
-  return path.isAbsolute(UPLOAD_DIR) ? UPLOAD_DIR : path.join(process.cwd(), UPLOAD_DIR);
+  if (path.isAbsolute(UPLOAD_DIR)) {
+    return UPLOAD_DIR;
+  }
+
+  const relativeDir = normalizeRelativeUploadDir(UPLOAD_DIR);
+  if (relativeDir === PROJECT_UPLOAD_DIR) {
+    return DEFAULT_UPLOAD_ROOT;
+  }
+
+  return path.join(/* turbopackIgnore: true */ process.cwd(), relativeDir);
 }
 
 export function buildUploadPath(filename: string): { diskPath: string; publicUrl: string; relativePath: string } {
@@ -25,7 +40,11 @@ export function buildUploadPath(filename: string): { diskPath: string; publicUrl
   const year = String(now.getFullYear());
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const relativePath = path.posix.join(year, month, filename);
-  const diskPath = path.join(resolveUploadRoot(), year, month, filename);
+  const uploadRoot = resolveUploadRoot();
+  const diskPath =
+    uploadRoot === DEFAULT_UPLOAD_ROOT
+      ? path.join(DEFAULT_UPLOAD_ROOT, year, month, filename)
+      : path.join(/* turbopackIgnore: true */ uploadRoot, year, month, filename);
   const publicUrl = `/media/${relativePath.replace(/\\/g, "/")}`;
   return { diskPath, publicUrl, relativePath };
 }
@@ -33,10 +52,20 @@ export function buildUploadPath(filename: string): { diskPath: string; publicUrl
 export function safeMediaPath(requested: string): string | null {
   const uploadRoot = resolveUploadRoot();
   const normalized = path.normalize(requested).replace(/^(\.\.[/\\])+/, "");
-  const fullPath = path.join(uploadRoot, normalized);
+  const fullPath =
+    uploadRoot === DEFAULT_UPLOAD_ROOT
+      ? path.join(DEFAULT_UPLOAD_ROOT, normalized)
+      : path.join(/* turbopackIgnore: true */ uploadRoot, normalized);
   if (!fullPath.startsWith(uploadRoot)) return null;
-  if (!existsSync(fullPath)) return null;
+  if (!fileExists(fullPath)) return null;
   return fullPath;
+}
+
+function fileExists(fullPath: string): boolean {
+  if (fullPath.startsWith(DEFAULT_UPLOAD_ROOT)) {
+    return existsSync(fullPath);
+  }
+  return existsSync(/* turbopackIgnore: true */ fullPath);
 }
 
 export async function ensureUploadDir(diskPath: string): Promise<void> {
