@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
-import { BRAND_IMAGES, resolvePackageImage } from "@/lib/images";
+import { resolveProductImage } from "@/lib/images";
 
 import { isPackageLogoImage, isStoredUploadUrl, isSvgImage, resolveImageSrc } from "@/lib/image-utils";
 
@@ -26,10 +26,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const rawImageUrl =
-    product.category === "Packages"
-      ? resolvePackageImage(product.images?.[0]?.url, product.slug)
-      : (product.images?.[0]?.url ?? BRAND_IMAGES.cards);
+  const rawImageUrl = resolveProductImage(product.images?.[0]?.url, product.slug, product.category);
   const imageUrl = resolveImageSrc(rawImageUrl);
   const isLogo = isPackageLogoImage(imageUrl);
   const outOfStock = product.stock !== undefined && product.stock <= 0;

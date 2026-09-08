@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/components/motion/useReducedMotion";
 import { useMediaQuery } from "@/components/motion/useMediaQuery";
 import { Button } from "@/components/ui/Button";
-import { BRAND_IMAGES } from "@/lib/images";
+import { resolveServiceImage } from "@/lib/images";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -197,7 +197,7 @@ function ServiceCard({
   const number = String(index + 1).padStart(2, "0");
   const bullets = (service.benefits ?? []).slice(0, 4);
   const summary = service.overview ?? service.shortDescription;
-  const imageUrl = service.cardImage?.url ?? BRAND_IMAGES.services;
+  const imageUrl = resolveServiceImage(service.cardImage?.url, service.slug);
 
   return (
     <article

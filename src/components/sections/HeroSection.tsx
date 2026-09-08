@@ -38,7 +38,7 @@ export function HeroSection({
         alt=""
         fill
         priority
-        className="object-cover object-[30%_center] sm:object-[40%_center] lg:object-[50%_center]"
+        className="object-cover object-[65%_center] sm:object-[70%_center] lg:object-[75%_center]"
         sizes="100vw"
       />
       <div className="absolute inset-0 hero-overlay-left" />

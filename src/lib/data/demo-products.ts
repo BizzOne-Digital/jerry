@@ -35,7 +35,7 @@ export const DEMO_FEATURED_PRODUCTS: DemoProduct[] = [
     category: "Cards",
     stock: 3,
     featured: true,
-    images: [{ url: BRAND_IMAGES.grading, alt: "Demo graded card" }],
+    images: [{ url: BRAND_IMAGES.display, alt: "Demo graded card" }],
   },
   {
     _id: "demo-3",
@@ -64,7 +64,7 @@ export const DEMO_FEATURED_PRODUCTS: DemoProduct[] = [
     category: "Memorabilia",
     stock: 1,
     featured: true,
-    images: [{ url: BRAND_IMAGES.vintage, alt: "Demo bat memorabilia" }],
+    images: [{ url: BRAND_IMAGES.jersey, alt: "Demo bat memorabilia" }],
   },
   {
     _id: "demo-6",

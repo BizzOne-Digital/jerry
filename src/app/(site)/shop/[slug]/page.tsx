@@ -5,7 +5,7 @@ import { AddToCartButton } from "@/components/shop/AddToCartButton";
 import { ImageGallery } from "@/components/sections/SectionRenderer";
 import { formatCurrency } from "@/lib/utils";
 import { getProductBySlug } from "@/lib/data/products";
-import { BRAND_IMAGES, resolvePackageImage } from "@/lib/images";
+import { resolveProductGalleryImages, resolveProductImage } from "@/lib/images";
 import { isPackageLogoImage, isStoredUploadUrl, isSvgImage, resolveImageSrc } from "@/lib/image-utils";
 import { Badge } from "@/components/ui/Badge";
 
@@ -25,22 +25,10 @@ export default async function ProductDetailPage({ params }: Props) {
   if (!product) notFound();
 
   const primaryImage = resolveImageSrc(
-    product.category === "Packages"
-      ? resolvePackageImage(product.images?.[0]?.url, product.slug)
-      : (product.images?.[0]?.url ?? BRAND_IMAGES.cards)
+    resolveProductImage(product.images?.[0]?.url, product.slug, product.category),
   );
   const isLogo = isPackageLogoImage(primaryImage);
-  const images =
-    product.images?.length >= 5
-      ? product.images
-      : [
-          ...(product.images ?? []),
-          { url: BRAND_IMAGES.cards, alt: product.name },
-          { url: BRAND_IMAGES.display, alt: "Display" },
-          { url: BRAND_IMAGES.grading, alt: "Grading" },
-          { url: BRAND_IMAGES.vintage, alt: "Vintage" },
-          { url: BRAND_IMAGES.collection, alt: "Collection" },
-        ].slice(0, 6);
+  const images = resolveProductGalleryImages(product.slug, product.category, product.images, product.name);
 
   const inStock = product.stock > 0 || product.allowBackorder;
 

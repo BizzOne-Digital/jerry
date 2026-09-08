@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { BRAND_IMAGES } from "@/lib/images";
+import { resolveServiceImage } from "@/lib/images";
 
 interface Service {
   _id: string;
@@ -37,7 +37,7 @@ export function ServicesGrid({ services }: ServicesGridProps) {
               >
                 <div className="relative aspect-[16/10] shrink-0">
                   <Image
-                    src={svc.cardImage?.url ?? BRAND_IMAGES.services}
+                    src={resolveServiceImage(svc.cardImage?.url, svc.slug)}
                     alt={svc.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-105"
