@@ -5,10 +5,11 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    localPatterns: [
-      { pathname: "/api/uploads/**" },
-      { pathname: "/assets/**" },
-    ],
+  localPatterns: [
+    { pathname: "/api/uploads/**" },
+    { pathname: "/assets/**" },
+    { pathname: "/assets/site/**" },
+  ],
     remotePatterns: [
       {
         protocol: "https",

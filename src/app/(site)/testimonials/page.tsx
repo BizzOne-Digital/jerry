@@ -22,7 +22,7 @@ export default function TestimonialsPage() {
         eyebrow="Reviews"
         heading="Collector Stories"
         subheading="Real feedback from real collectors."
-        imageUrl={BRAND_IMAGES.handshake}
+        imageUrl={BRAND_IMAGES.familyPacks ?? BRAND_IMAGES.spotlight}
       />
       <section className="py-16">
         <Container>

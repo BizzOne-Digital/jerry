@@ -15,6 +15,10 @@ function img(filename: string, alt: string) {
   return { url: `/assets/demo/${filename}`, alt };
 }
 
+function siteImg(filename: string, alt: string) {
+  return { url: `/assets/site/${filename}`, alt };
+}
+
 async function seedSiteSettings() {
   await SiteSettings.updateOne(
     { singletonKey: "default" },
@@ -85,8 +89,8 @@ async function seedPages() {
           body: "Buy, sell, and trade collectible cards, authenticated autographs, sports memorabilia, and more.",
           cta: { label: "Shop Collectibles", href: "/shop" },
           secondaryCta: { label: "Sell or Trade", href: "/contact?inquiry=Sell" },
-          image: img("arena-hero-glow.svg", "Layered collectible cards in cinematic arena lighting"),
-          backgroundImage: { url: "/assets/hero-background.png", alt: "Graded card and memorabilia in stadium lighting" },
+          image: siteImg("collector-triptych.jpg", "Grading, trading, and collecting"),
+          backgroundImage: siteImg("hero-shop.jpg", "Premium sports collectibles boutique"),
         },
         {
           id: "ticker",
@@ -108,10 +112,10 @@ async function seedPages() {
           heading: "Buy it. Sell it. Trade it. Live it.",
           items: ["Buy it.", "Sell it.", "Trade it.", "Live it."],
           images: [
-            img("card-back-classic.svg", "Buy collectible cards"),
-            img("card-stack.svg", "Sell your collection"),
-            img("foil-sweep.svg", "Trade collectibles"),
-            img("ticket-stub.svg", "Experience live games"),
+            siteImg("cards.jpg", "Buy collectible cards"),
+            siteImg("trading-desk.jpg", "Sell your collection"),
+            siteImg("treasure-chest.jpg", "Trade collectibles"),
+            siteImg("tickets.jpg", "Experience live games"),
           ],
         },
         {
@@ -122,10 +126,10 @@ async function seedPages() {
           heading: "Featured Categories",
           items: ["Collectible Cards", "Authenticated Autographs", "Sports Memorabilia", "Game Tickets"],
           images: [
-            img("card-back-holographic.svg", "Collectible cards"),
-            img("autograph-motif.svg", "Authenticated autographs"),
-            img("memorabilia-helmet.svg", "Sports memorabilia"),
-            img("ticket-texture.svg", "Game tickets"),
+            siteImg("cards.jpg", "Collectible cards"),
+            siteImg("autographs.jpg", "Authenticated autographs"),
+            siteImg("memorabilia.jpg", "Sports memorabilia"),
+            siteImg("tickets.jpg", "Game tickets"),
           ],
         },
         {
@@ -145,8 +149,8 @@ async function seedPages() {
           eyebrow: "The Vault Opens",
           heading: "Curated pieces for every collector",
           body: "From first-pack excitement to centerpiece displays, discover inventory chosen with condition transparency and fair pricing in mind.",
-          image: img("vault-opens.svg", "Vault doors opening to reveal collectible cards"),
-          backgroundImage: img("vault-panel.svg", "Temperature-controlled vault panel texture"),
+          image: siteImg("treasure-chest.jpg", "Curated collector showcase"),
+          backgroundImage: siteImg("vault.jpg", "Secure collector vault storage"),
         },
         {
           id: "services-spotlight",
@@ -156,7 +160,7 @@ async function seedPages() {
           heading: "More than a shop",
           body: "Buy, sell, and trade collectible cards, authenticated autographs, sports memorabilia, and more. We also offer affordable tickets to MLB, NFL, and other major sporting events.",
           cta: { label: "Explore Services", href: "/services" },
-          image: img("collector-badge.svg", "Verified collector badge emblem"),
+          image: siteImg("trading-desk.jpg", "Expert collector services"),
         },
         {
           id: "offers",
@@ -184,7 +188,7 @@ async function seedPages() {
             { label: "Services", value: "6" },
             { label: "Support", value: "7 Days" },
           ],
-          image: img("grade-label.svg", "Condition grade label detail"),
+          image: siteImg("card-sleeving.jpg", "Professional card handling"),
         },
         {
           id: "testimonials",
@@ -202,7 +206,7 @@ async function seedPages() {
           heading: "Experience the action live",
           body: "Affordable tickets to major sporting events — request seats without breaking the bank.",
           cta: { label: "Request Tickets", href: "/contact?inquiry=Tickets" },
-          image: img("ticket-stub.svg", "Torn stadium ticket stub"),
+          image: siteImg("tickets.jpg", "Premium event tickets"),
         },
         {
           id: "faq-preview",
@@ -220,14 +224,14 @@ async function seedPages() {
           heading: "Ready to start collecting?",
           body: "Reach out for buying, selling, trading, or ticket inquiries.",
           cta: { label: "Contact Us", href: "/contact" },
-          backgroundImage: img("broadcast-wipe.svg", "Broadcast wipe accent"),
+          backgroundImage: siteImg("contact-desk.jpg", "Contact Sodapops Collectibles"),
         },
       ],
       seo: {
         title: "Sodapops Collectibles | Collect. Trade. Experience the Game.",
         description:
           "Sports collectibles, authenticated autographs, memorabilia, and affordable game tickets from Sodapops Collectibles LLC.",
-        ogImage: img("arena-hero-glow.svg", "Sodapops Collectibles"),
+        ogImage: siteImg("hero-shop.jpg", "Sodapops Collectibles"),
       },
     },
     {
@@ -242,8 +246,8 @@ async function seedPages() {
           eyebrow: "Our Story",
           heading: "Built for the love of the game.",
           body: "Sodapops Collectibles LLC exists for collectors and fans who want fair dealing, clear condition information, and accessible live experiences.",
-          image: img("stadium-lights.svg", "Stadium lights at dusk"),
-          backgroundImage: img("arena-hero-glow.svg", "Cinematic arena glow"),
+          image: siteImg("card-show-inspect.jpg", "Inspecting cards at a show"),
+          backgroundImage: siteImg("hero-shop.jpg", "Premium collectibles boutique"),
         },
         {
           id: "mission",
@@ -332,8 +336,8 @@ async function seedPages() {
           heading: "Services for every collector",
           body: "Buy, sell, and trade collectible cards, authenticated autographs, sports memorabilia, and more.",
           cta: { label: "Contact Us", href: "/contact" },
-          backgroundImage: img("broadcast-wipe.svg", "Broadcast diagonal wipe"),
-          image: img("arena-hero-glow.svg", "Services hero composition"),
+          backgroundImage: siteImg("trading-desk.jpg", "Expert collector services"),
+          image: siteImg("card-photography.jpg", "Professional card photography"),
         },
         {
           id: "intro",
@@ -419,8 +423,8 @@ async function seedPages() {
           eyebrow: "The Shop",
           heading: "Find your next centerpiece",
           body: "Browse cards, autographs, memorabilia, tickets, and surprise packages.",
-          image: img("card-back-holographic.svg", "Holographic card back"),
-          backgroundImage: img("vault-opens.svg", "Vault opens to shop"),
+          image: siteImg("cards.jpg", "Premium sports trading cards"),
+          backgroundImage: siteImg("treasure-chest.jpg", "Curated collector showcase"),
         },
         {
           id: "intro",
@@ -541,8 +545,8 @@ async function seedPages() {
           eyebrow: "Collector Voices",
           heading: "Stories from the hobby",
           body: "Demo testimonials below — replace with real customer feedback before launch.",
-          backgroundImage: img("stadium-lights.svg", "Stadium lights background"),
-          image: img("collector-badge.svg", "Collector badge"),
+          backgroundImage: siteImg("family-packs.jpg", "Family opening card packs"),
+          image: siteImg("team-show.jpg", "Sodapops team at a card show"),
         },
         {
           id: "slider",
@@ -597,8 +601,8 @@ async function seedPages() {
           eyebrow: "Help Center",
           heading: "Frequently Asked Questions",
           body: "Searchable answers about buying, selling, trading, authenticity, tickets, and shipping.",
-          backgroundImage: img("vault-panel.svg", "Vault panel collage"),
-          image: img("card-back-classic.svg", "FAQ card accent"),
+          backgroundImage: siteImg("vault.jpg", "Secure collector vault"),
+          image: siteImg("faq-question.jpg", "Collector questions answered"),
         },
         {
           id: "accordion",
@@ -648,8 +652,8 @@ async function seedPages() {
           eyebrow: "Get in Touch",
           heading: "We're here to help collectors",
           body: "Reach out for buying, selling, trading, autographs, memorabilia, tickets, or order support.",
-          backgroundImage: img("arena-hero-glow.svg", "Contact hero glow"),
-          image: img("collector-badge.svg", "Contact emblem"),
+          backgroundImage: siteImg("contact-desk.jpg", "Contact Sodapops Collectibles"),
+          image: siteImg("trading-desk.jpg", "Expert collector consultation"),
         },
         {
           id: "form",
@@ -1593,12 +1597,12 @@ async function seedBlogPosts() {
 
 async function seedMediaCategories() {
   const categories = [
-    { name: "Hero Images", slug: "hero-images", coverImageUrl: "/assets/demo/arena-hero-glow.svg", sortOrder: 0 },
-    { name: "Product Shots", slug: "product-shots", coverImageUrl: "/assets/demo/card-back-holographic.svg", sortOrder: 1 },
-    { name: "Card Assets", slug: "card-assets", coverImageUrl: "/assets/demo/card-back-classic.svg", sortOrder: 2 },
-    { name: "Memorabilia", slug: "memorabilia", coverImageUrl: "/assets/demo/memorabilia-helmet.svg", sortOrder: 3 },
-    { name: "Tickets & Events", slug: "tickets-events", coverImageUrl: "/assets/demo/ticket-stub.svg", sortOrder: 4 },
-    { name: "Backgrounds & Textures", slug: "backgrounds-textures", coverImageUrl: "/assets/demo/vault-panel.svg", sortOrder: 5 },
+    { name: "Hero Images", slug: "hero-images", coverImageUrl: "/assets/site/hero-shop.jpg", sortOrder: 0 },
+    { name: "Product Shots", slug: "product-shots", coverImageUrl: "/assets/site/graded-pedestal.jpg", sortOrder: 1 },
+    { name: "Card Assets", slug: "card-assets", coverImageUrl: "/assets/site/cards.jpg", sortOrder: 2 },
+    { name: "Memorabilia", slug: "memorabilia", coverImageUrl: "/assets/site/memorabilia.jpg", sortOrder: 3 },
+    { name: "Tickets & Events", slug: "tickets-events", coverImageUrl: "/assets/site/tickets.jpg", sortOrder: 4 },
+    { name: "Backgrounds & Textures", slug: "backgrounds-textures", coverImageUrl: "/assets/site/vault.jpg", sortOrder: 5 },
   ];
 
   for (const category of categories) {

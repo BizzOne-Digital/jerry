@@ -47,8 +47,8 @@ export function Header() {
           : "border-b border-arena-border/60 bg-arena-black/92 backdrop-blur-md"
       )}
     >
-      <div className="relative mx-auto flex h-16 max-w-[1400px] min-w-0 items-center px-3 sm:h-[4.5rem] sm:px-6 lg:px-10">
-        <Logo variant="wordmark" className="relative z-10 shrink-0" />
+      <div className="relative mx-auto flex h-[4.25rem] max-w-[1400px] min-w-0 items-center px-3 sm:h-[5rem] sm:px-6 lg:px-10">
+        <Logo variant="wordmark" priority className="relative z-10 shrink-0" />
 
         <nav
           className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"

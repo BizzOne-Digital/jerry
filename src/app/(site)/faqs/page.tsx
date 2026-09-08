@@ -13,7 +13,7 @@ export default function FaqsPage() {
         eyebrow="Help Center"
         heading="Frequently Asked Questions"
         subheading="Everything you need to know about collecting with us."
-        imageUrl={BRAND_IMAGES.grading}
+        imageUrl={BRAND_IMAGES.faq}
       />
       <section className="py-16">
         <Container className="max-w-3xl">
