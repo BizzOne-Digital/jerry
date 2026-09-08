@@ -105,6 +105,10 @@ export const QUESTIONNAIRE_STATUSES = ["submitted", "reviewed", "archived"] as c
 
 export type QuestionnaireStatus = (typeof QUESTIONNAIRE_STATUSES)[number];
 
+export const UPLOAD_FOLDERS = ["products", "gallery", "pages", "misc"] as const;
+
+export type UploadFolder = (typeof UPLOAD_FOLDERS)[number];
+
 export const PAGE_KEYS = [
   "home",
   "about",

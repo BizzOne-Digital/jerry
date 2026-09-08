@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import fs from "fs/promises";
 import { jsonError, jsonOk, serialize, withAdmin } from "@/lib/admin/api-helpers";
+import { deleteStoredUploadByUrl } from "@/lib/media/stored-uploads";
 import MediaAsset from "@/models/MediaAsset";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -23,13 +23,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
       return jsonError("Cannot delete asset that is in use");
     }
 
-    try {
-      await fs.unlink(asset.diskPath);
-      for (const variant of asset.variants ?? []) {
-        if (variant.diskPath) await fs.unlink(variant.diskPath).catch(() => {});
-      }
-    } catch {
-      // file may already be missing
+    if (asset.publicUrl?.startsWith("/api/uploads/")) {
+      await deleteStoredUploadByUrl(asset.publicUrl);
     }
 
     await asset.deleteOne();

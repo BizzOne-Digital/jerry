@@ -1,8 +1,14 @@
 import { NextRequest } from "next/server";
-import fs from "fs/promises";
 import { jsonError, jsonOk, serialize, withAdmin } from "@/lib/admin/api-helpers";
 import MediaAsset from "@/models/MediaAsset";
-import { processAndSaveUpload } from "@/lib/media/upload";
+import {
+  deleteStoredUploadByUrl,
+  isUploadFolder,
+  MAX_STORED_UPLOAD_BYTES,
+  mimeToExtension,
+  saveStoredUpload,
+  STORED_UPLOAD_MIMES,
+} from "@/lib/media/stored-uploads";
 
 export async function GET(req: NextRequest) {
   return withAdmin(async () => {
@@ -24,21 +30,28 @@ export async function POST(req: NextRequest) {
 
     if (!file) return jsonError("No file provided");
 
+    if (file.size > MAX_STORED_UPLOAD_BYTES) {
+      return jsonError("File exceeds maximum size of 8MB");
+    }
+
+    const mimeType = file.type || "application/octet-stream";
+    if (!STORED_UPLOAD_MIMES.has(mimeType) || !mimeToExtension(mimeType)) {
+      return jsonError("Unsupported image format");
+    }
+
     const buffer = Buffer.from(await file.arrayBuffer());
-    const processed = await processAndSaveUpload(buffer, file.name);
+    const saved = await saveStoredUpload("gallery", buffer, mimeType);
 
     const asset = await MediaAsset.create({
       originalName: file.name,
-      diskPath: processed.diskPath,
-      publicUrl: processed.publicUrl,
-      mimeType: processed.mimeType,
-      byteSize: processed.byteSize,
-      width: processed.width,
-      height: processed.height,
+      diskPath: `stored://gallery/${saved.filename}`,
+      publicUrl: saved.url,
+      mimeType,
+      byteSize: saved.size,
       altText: altText ?? file.name,
       categoryId: categoryId || undefined,
       uploadedBy: session.user.id,
-      variants: processed.variants,
+      variants: [],
     });
 
     return jsonOk(serialize(asset), 201);

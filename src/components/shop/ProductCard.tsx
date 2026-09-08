@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { BRAND_IMAGES, resolvePackageImage } from "@/lib/images";
 
-import { isPackageLogoImage, isSvgImage } from "@/lib/image-utils";
+import { isPackageLogoImage, isStoredUploadUrl, isSvgImage, resolveImageSrc } from "@/lib/image-utils";
 
 interface Product {
   _id: string;
@@ -26,10 +26,11 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const imageUrl =
+  const rawImageUrl =
     product.category === "Packages"
       ? resolvePackageImage(product.images?.[0]?.url, product.slug)
       : (product.images?.[0]?.url ?? BRAND_IMAGES.cards);
+  const imageUrl = resolveImageSrc(rawImageUrl);
   const isLogo = isPackageLogoImage(imageUrl);
   const outOfStock = product.stock !== undefined && product.stock <= 0;
 
@@ -43,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={imageUrl}
           alt={product.images?.[0]?.alt ?? product.name}
           fill
-          unoptimized={isSvgImage(imageUrl)}
+          unoptimized={isSvgImage(imageUrl) || isStoredUploadUrl(imageUrl)}
           className={isLogo ? "object-contain bg-arena-navy p-3" : "object-cover transition-transform duration-500 group-hover:scale-105"}
           sizes="(max-width:768px) 50vw, 25vw"
         />

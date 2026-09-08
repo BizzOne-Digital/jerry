@@ -9,10 +9,9 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea, FormCheckbox } from "@/components/admin/form-fields";
-import { MediaPicker } from "@/components/admin/media-picker";
+import { LocalImageField } from "@/components/admin/local-image-field";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { CONTENT_STATUS, PRODUCT_CATEGORIES } from "@/types";
-import type { ImageRef } from "@/types";
 
 const productSchema = z.object({
   name: z.string().min(1),
@@ -38,7 +37,7 @@ export default function EditProductPage() {
   const id = params.id as string;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [primaryImage, setPrimaryImage] = useState<ImageRef | null>(null);
+  const [primaryImageUrl, setPrimaryImageUrl] = useState<string | null>(null);
 
   const methods = useForm<ProductForm>({ resolver: zodResolver(productSchema) });
 
@@ -66,7 +65,7 @@ export default function EditProductPage() {
         seoTitle: data.seo?.title ?? "",
         seoDescription: data.seo?.description ?? "",
       });
-      setPrimaryImage(data.images?.[0] ?? null);
+      setPrimaryImageUrl(data.images?.[0]?.url ?? null);
       setLoading(false);
     }
     void load();
@@ -80,7 +79,7 @@ export default function EditProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          images: primaryImage ? [primaryImage] : [],
+          images: primaryImageUrl ? [{ url: primaryImageUrl }] : [],
           seo: { title: values.seoTitle, description: values.seoDescription },
         }),
       });
@@ -135,7 +134,12 @@ export default function EditProductPage() {
             <FormCheckbox name="featured" label="Featured" />
             <FormCheckbox name="onSale" label="On Sale" />
             <div className="md:col-span-2">
-              <MediaPicker value={primaryImage} onChange={setPrimaryImage} label="Primary Image" />
+              <LocalImageField
+                value={primaryImageUrl}
+                onChange={setPrimaryImageUrl}
+                folder="products"
+                label="Primary Image"
+              />
             </div>
             <div className="md:col-span-2">
               <FormTextarea name="shortDescription" label="Short Description" />

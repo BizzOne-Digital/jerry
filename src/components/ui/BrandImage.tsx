@@ -1,10 +1,18 @@
 import Image, { type ImageProps } from "next/image";
-import { isSvgImage } from "@/lib/image-utils";
+import { isStoredUploadUrl, isSvgImage, resolveImageSrc } from "@/lib/image-utils";
 
-type BrandImageProps = Omit<ImageProps, "unoptimized"> & {
+type BrandImageProps = Omit<ImageProps, "unoptimized" | "src"> & {
   src: string;
 };
 
 export function BrandImage({ src, alt = "", ...props }: BrandImageProps) {
-  return <Image src={src} alt={alt} unoptimized={isSvgImage(src)} {...props} />;
+  const resolved = resolveImageSrc(src);
+  return (
+    <Image
+      src={resolved}
+      alt={alt}
+      unoptimized={isSvgImage(resolved) || isStoredUploadUrl(resolved)}
+      {...props}
+    />
+  );
 }

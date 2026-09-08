@@ -9,10 +9,9 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea } from "@/components/admin/form-fields";
-import { MediaPicker } from "@/components/admin/media-picker";
+import { LocalImageField } from "@/components/admin/local-image-field";
 import { Tabs } from "@/components/admin/tabs";
 import { CONTENT_STATUS } from "@/types";
-import type { ImageRef } from "@/types";
 
 const serviceSchema = z.object({
   title: z.string().min(1, "Title required"),
@@ -30,7 +29,7 @@ type ServiceForm = z.infer<typeof serviceSchema>;
 export default function NewServicePage() {
   const router = useRouter();
   const [tab, setTab] = useState("card");
-  const [cardImage, setCardImage] = useState<ImageRef | null>(null);
+  const [cardImageUrl, setCardImageUrl] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   const methods = useForm<ServiceForm>({
@@ -46,7 +45,7 @@ export default function NewServicePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          cardImage,
+          cardImage: cardImageUrl ? { url: cardImageUrl } : null,
           benefits: values.benefitsText?.split("\n").filter(Boolean) ?? [],
         }),
       });
@@ -101,7 +100,12 @@ export default function NewServicePage() {
               />
               <FormInput name="ctaLabel" label="CTA Label" />
               <div className="md:col-span-2">
-                <MediaPicker value={cardImage} onChange={setCardImage} label="Card Image" />
+                <LocalImageField
+                  value={cardImageUrl}
+                  onChange={setCardImageUrl}
+                  folder="pages"
+                  label="Card Image"
+                />
               </div>
             </div>
           )}

@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import type { ImageRef } from "@/types";
+import type { UploadFolder } from "@/types";
+import { LocalImageField } from "@/components/admin/local-image-field";
 
 interface MediaPickerProps {
   value?: ImageRef | null;
   onChange: (value: ImageRef | null) => void;
   label?: string;
+  folder?: UploadFolder;
 }
 
 interface MediaAsset {
@@ -16,7 +19,12 @@ interface MediaAsset {
   originalName: string;
 }
 
-export function MediaPicker({ value, onChange, label = "Image" }: MediaPickerProps) {
+export function MediaPicker({
+  value,
+  onChange,
+  label = "Image",
+  folder = "misc",
+}: MediaPickerProps) {
   const [open, setOpen] = useState(false);
   const [assets, setAssets] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,34 +43,17 @@ export function MediaPicker({ value, onChange, label = "Image" }: MediaPickerPro
   }
 
   return (
-    <div>
-      <span className="admin-label">{label}</span>
-      <div className="flex items-start gap-4">
-        {value?.url ? (
-          <div className="relative h-24 w-24 overflow-hidden rounded-lg border border-[var(--admin-border)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={value.url} alt={value.alt ?? ""} className="h-full w-full object-cover" />
-          </div>
-        ) : (
-          <div className="flex h-24 w-24 items-center justify-center rounded-lg border border-dashed border-[var(--admin-border)] text-xs text-[var(--admin-muted)]">
-            No image
-          </div>
-        )}
-        <div className="flex flex-col gap-2">
-          <button type="button" className="admin-btn admin-btn-secondary text-sm" onClick={handleOpen}>
-            Choose Image
-          </button>
-          {value?.url && (
-            <button
-              type="button"
-              className="admin-btn admin-btn-danger text-sm"
-              onClick={() => onChange(null)}
-            >
-              Remove
-            </button>
-          )}
-        </div>
-      </div>
+    <div className="space-y-4">
+      <LocalImageField
+        value={value?.url ?? null}
+        onChange={(url) => onChange(url ? { url, alt: value?.alt } : null)}
+        folder={folder}
+        label={label}
+      />
+
+      <button type="button" className="admin-btn admin-btn-secondary text-sm" onClick={handleOpen}>
+        Choose from Gallery
+      </button>
 
       {open && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">

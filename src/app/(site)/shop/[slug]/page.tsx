@@ -6,7 +6,7 @@ import { ImageGallery } from "@/components/sections/SectionRenderer";
 import { formatCurrency } from "@/lib/utils";
 import { getProductBySlug } from "@/lib/data/products";
 import { BRAND_IMAGES, resolvePackageImage } from "@/lib/images";
-import { isPackageLogoImage } from "@/lib/image-utils";
+import { isPackageLogoImage, isStoredUploadUrl, isSvgImage, resolveImageSrc } from "@/lib/image-utils";
 import { Badge } from "@/components/ui/Badge";
 
 interface Props {
@@ -24,10 +24,11 @@ export default async function ProductDetailPage({ params }: Props) {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const primaryImage =
+  const primaryImage = resolveImageSrc(
     product.category === "Packages"
       ? resolvePackageImage(product.images?.[0]?.url, product.slug)
-      : (product.images?.[0]?.url ?? BRAND_IMAGES.cards);
+      : (product.images?.[0]?.url ?? BRAND_IMAGES.cards)
+  );
   const isLogo = isPackageLogoImage(primaryImage);
   const images =
     product.images?.length >= 5
@@ -56,6 +57,7 @@ export default async function ProductDetailPage({ params }: Props) {
                 className={isLogo ? "object-contain bg-arena-navy p-6" : "object-cover"}
                 sizes="50vw"
                 priority
+                unoptimized={isStoredUploadUrl(primaryImage) || isSvgImage(primaryImage)}
               />
             </div>
             <div className="mt-6">

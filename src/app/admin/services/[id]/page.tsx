@@ -9,11 +9,10 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea } from "@/components/admin/form-fields";
-import { MediaPicker } from "@/components/admin/media-picker";
+import { LocalImageField } from "@/components/admin/local-image-field";
 import { Tabs } from "@/components/admin/tabs";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { CONTENT_STATUS } from "@/types";
-import type { ImageRef } from "@/types";
 
 const serviceSchema = z.object({
   title: z.string().min(1),
@@ -38,8 +37,8 @@ export default function EditServicePage() {
   const [tab, setTab] = useState("card");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [cardImage, setCardImage] = useState<ImageRef | null>(null);
-  const [detailHeroImage, setDetailHeroImage] = useState<ImageRef | null>(null);
+  const [cardImageUrl, setCardImageUrl] = useState<string | null>(null);
+  const [detailHeroImageUrl, setDetailHeroImageUrl] = useState<string | null>(null);
 
   const methods = useForm<ServiceForm>({
     resolver: zodResolver(serviceSchema),
@@ -67,8 +66,8 @@ export default function EditServicePage() {
         seoTitle: data.seo?.title ?? "",
         seoDescription: data.seo?.description ?? "",
       });
-      setCardImage(data.cardImage ?? null);
-      setDetailHeroImage(data.detailHero?.image ?? null);
+      setCardImageUrl(data.cardImage?.url ?? null);
+      setDetailHeroImageUrl(data.detailHero?.image?.url ?? null);
       setLoading(false);
     }
     void load();
@@ -87,13 +86,13 @@ export default function EditServicePage() {
           sortOrder: values.sortOrder,
           status: values.status,
           ctaLabel: values.ctaLabel,
-          cardImage,
+          cardImage: cardImageUrl ? { url: cardImageUrl } : null,
           overview: values.overview,
           benefits: values.benefitsText?.split("\n").filter(Boolean) ?? [],
           detailHero: {
             heading: values.detailHeroHeading,
             subheading: values.detailHeroSubheading,
-            image: detailHeroImage,
+            image: detailHeroImageUrl ? { url: detailHeroImageUrl } : null,
           },
           seo: { title: values.seoTitle, description: values.seoDescription },
         }),
@@ -153,7 +152,12 @@ export default function EditServicePage() {
               />
               <FormInput name="ctaLabel" label="CTA Label" />
               <div className="md:col-span-2">
-                <MediaPicker value={cardImage} onChange={setCardImage} label="Card Image" />
+                <LocalImageField
+                  value={cardImageUrl}
+                  onChange={setCardImageUrl}
+                  folder="pages"
+                  label="Card Image"
+                />
               </div>
             </div>
           )}
@@ -163,7 +167,12 @@ export default function EditServicePage() {
               <FormInput name="detailHeroHeading" label="Hero Heading" />
               <FormInput name="detailHeroSubheading" label="Hero Subheading" />
               <div className="md:col-span-2">
-                <MediaPicker value={detailHeroImage} onChange={setDetailHeroImage} label="Hero Image" />
+                <LocalImageField
+                  value={detailHeroImageUrl}
+                  onChange={setDetailHeroImageUrl}
+                  folder="pages"
+                  label="Hero Image"
+                />
               </div>
               <div className="md:col-span-2">
                 <FormTextarea name="overview" label="Overview" rows={6} />
