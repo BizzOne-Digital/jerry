@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea, FormCheckbox } from "@/components/admin/form-fields";
 import { DeleteButton } from "@/components/admin/delete-button";
+import { LocalImageField } from "@/components/admin/local-image-field";
 import { CONTENT_STATUS } from "@/types";
 
 const schema = z.object({
@@ -32,6 +33,7 @@ export default function AdminTestimonialEditPage() {
   const isNew = id === "new";
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const methods = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -48,6 +50,7 @@ export default function AdminTestimonialEditPage() {
         return;
       }
       methods.reset(data);
+      setAvatarUrl(data.avatar?.url ?? null);
       setLoading(false);
     }
     void load();
@@ -59,7 +62,10 @@ export default function AdminTestimonialEditPage() {
       const res = await fetch(isNew ? "/api/admin/testimonials" : `/api/admin/testimonials/${id}`, {
         method: isNew ? "POST" : "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          avatar: avatarUrl ? { url: avatarUrl } : null,
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -106,6 +112,14 @@ export default function AdminTestimonialEditPage() {
             options={CONTENT_STATUS.map((s) => ({ value: s, label: s }))}
           />
           <FormCheckbox name="featured" label="Featured" />
+          <div className="md:col-span-2">
+            <LocalImageField
+              value={avatarUrl}
+              onChange={setAvatarUrl}
+              folder="misc"
+              label="Customer Photo (optional)"
+            />
+          </div>
           <div className="md:col-span-2">
             <FormTextarea name="text" label="Testimonial Text" rows={5} required />
           </div>

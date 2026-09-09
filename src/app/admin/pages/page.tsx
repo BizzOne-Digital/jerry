@@ -12,7 +12,10 @@ export default async function AdminPagesListPage() {
 
   return (
     <div>
-      <PageHeader title="Pages" description="Manage site page content and sections" />
+      <PageHeader
+        title="Pages"
+        description="Edit homepage, about, services, shop, contact, and FAQ page content section by section."
+      />
 
       <div className="admin-card overflow-hidden">
         <table className="admin-table">

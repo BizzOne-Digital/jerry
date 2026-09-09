@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db/connect";
 import { requireAdmin } from "@/lib/auth/auth";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { ListRowActions } from "@/components/admin/list-row-actions";
 import Testimonial from "@/models/Testimonial";
 
 export default async function AdminTestimonialsPage() {
@@ -14,7 +15,7 @@ export default async function AdminTestimonialsPage() {
     <div>
       <PageHeader
         title="Testimonials"
-        description="Manage customer testimonials"
+        description="Add, edit, or remove customer testimonials and photos."
         actions={
           <Link href="/admin/testimonials/new" className="admin-btn admin-btn-primary text-sm">
             Add Testimonial
@@ -43,17 +44,19 @@ export default async function AdminTestimonialsPage() {
                   <StatusBadge status={item.status} />
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/testimonials/${item._id}`}
-                    className="text-sm text-[var(--admin-accent)] hover:underline"
-                  >
-                    Edit
-                  </Link>
+                  <ListRowActions
+                    editHref={`/admin/testimonials/${item._id}`}
+                    deleteEndpoint={`/api/admin/testimonials/${item._id}`}
+                    itemLabel="testimonial"
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {items.length === 0 && (
+          <p className="p-4 text-sm text-[var(--admin-muted)]">No testimonials yet.</p>
+        )}
       </div>
     </div>
   );

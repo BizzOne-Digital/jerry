@@ -11,8 +11,6 @@ const AdminUserSchema = new Schema(
   { timestamps: true }
 );
 
-AdminUserSchema.index({ email: 1 });
-
 export type AdminUserDocument = InferSchemaType<typeof AdminUserSchema> & {
   _id: mongoose.Types.ObjectId;
 };

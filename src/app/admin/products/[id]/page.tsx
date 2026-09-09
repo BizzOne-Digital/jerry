@@ -9,7 +9,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea, FormCheckbox } from "@/components/admin/form-fields";
-import { LocalImageField } from "@/components/admin/local-image-field";
+import { MultiImageField } from "@/components/admin/multi-image-field";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { CONTENT_STATUS, PRODUCT_CATEGORIES } from "@/types";
 
@@ -37,7 +37,7 @@ export default function EditProductPage() {
   const id = params.id as string;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [primaryImageUrl, setPrimaryImageUrl] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const methods = useForm<ProductForm>({ resolver: zodResolver(productSchema) });
 
@@ -65,7 +65,7 @@ export default function EditProductPage() {
         seoTitle: data.seo?.title ?? "",
         seoDescription: data.seo?.description ?? "",
       });
-      setPrimaryImageUrl(data.images?.[0]?.url ?? null);
+      setImageUrls((data.images ?? []).map((image: { url?: string }) => image.url).filter(Boolean));
       setLoading(false);
     }
     void load();
@@ -79,7 +79,7 @@ export default function EditProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          images: primaryImageUrl ? [{ url: primaryImageUrl }] : [],
+          images: imageUrls.map((url) => ({ url })),
           seo: { title: values.seoTitle, description: values.seoDescription },
         }),
       });
@@ -134,11 +134,11 @@ export default function EditProductPage() {
             <FormCheckbox name="featured" label="Featured" />
             <FormCheckbox name="onSale" label="On Sale" />
             <div className="md:col-span-2">
-              <LocalImageField
-                value={primaryImageUrl}
-                onChange={setPrimaryImageUrl}
+              <MultiImageField
+                values={imageUrls}
+                onChange={setImageUrls}
                 folder="products"
-                label="Primary Image"
+                label="Product Images"
               />
             </div>
             <div className="md:col-span-2">

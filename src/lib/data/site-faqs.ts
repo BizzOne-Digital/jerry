@@ -51,13 +51,13 @@ export const SITE_FAQS: SiteFaq[] = [
     id: "faq-8",
     question: "What is included in the All-Star Package?",
     answer:
-      "The $50 All-Star Package is a surprise assortment that may include card packs, graded cards, autographs, and event-specific collectibles. Contents vary and no specific items are guaranteed.",
+      "The $100 All-Star Package is a surprise assortment that may include card packs, graded cards, autographs, and event-specific collectibles. Contents vary and no specific items are guaranteed.",
   },
   {
     id: "faq-9",
     question: "What is guaranteed in the MVP Package?",
     answer:
-      "The $100 MVP Package includes 100+ cards with a guaranteed minimum of one autograph. Additional contents may include figures, graded cards, and event-specific items but vary by promotion.",
+      "The $50 MVP Package includes 100+ cards with a guaranteed minimum of one autograph. Additional contents may include figures, graded cards, and event-specific items but vary by promotion.",
   },
   {
     id: "faq-10",

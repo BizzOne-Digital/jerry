@@ -156,6 +156,10 @@ function CollectorQuestionnaireFormFields() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="arena-glow space-y-6 rounded-sm bg-arena-surface p-6">
+      <p className="text-sm leading-relaxed text-arena-muted">
+        Tell us what you collect and what you are chasing. The more we know, the better we can source
+        cards, autographs, memorabilia, and affordable game tickets for you.
+      </p>
       {lookupLoading && (
         <p className="text-sm text-arena-muted">Loading your order details...</p>
       )}

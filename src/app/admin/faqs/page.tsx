@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db/connect";
 import { requireAdmin } from "@/lib/auth/auth";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { ListRowActions } from "@/components/admin/list-row-actions";
 import FAQ from "@/models/FAQ";
 
 export default async function AdminFaqsPage() {
@@ -14,7 +15,7 @@ export default async function AdminFaqsPage() {
     <div>
       <PageHeader
         title="FAQs"
-        description="Manage frequently asked questions"
+        description="Manage frequently asked questions shown on the site."
         actions={
           <Link href="/admin/faqs/new" className="admin-btn admin-btn-primary text-sm">
             Add FAQ
@@ -41,17 +42,19 @@ export default async function AdminFaqsPage() {
                   <StatusBadge status={item.status} />
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/faqs/${item._id}`}
-                    className="text-sm text-[var(--admin-accent)] hover:underline"
-                  >
-                    Edit
-                  </Link>
+                  <ListRowActions
+                    editHref={`/admin/faqs/${item._id}`}
+                    deleteEndpoint={`/api/admin/faqs/${item._id}`}
+                    itemLabel="FAQ"
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {items.length === 0 && (
+          <p className="p-4 text-sm text-[var(--admin-muted)]">No FAQs yet.</p>
+        )}
       </div>
     </div>
   );

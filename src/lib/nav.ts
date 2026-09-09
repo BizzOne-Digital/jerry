@@ -3,6 +3,7 @@ export const MAIN_NAV = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Shop", href: "/shop" },
+  { label: "Collector Profile", href: "/questionnaire" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -12,6 +13,7 @@ export const HEADER_NAV = [
   { label: "Shop", href: "/shop" },
   { label: "Sell & Trade", href: "/contact?inquiry=Trade" },
   { label: "Services", href: "/services" },
+  { label: "Collector Profile", href: "/questionnaire" },
   { label: "About", href: "/about" },
 ] as const;
 

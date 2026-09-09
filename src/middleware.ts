@@ -1,5 +1,12 @@
-import { auth } from "@/lib/auth/auth";
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
+import { authConfig } from "@/lib/auth/auth.config";
+import { getEnv } from "@/lib/env";
+
+const { auth } = NextAuth({
+  ...authConfig,
+  secret: getEnv().AUTH_SECRET ?? "development-secret-change-me",
+});
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;

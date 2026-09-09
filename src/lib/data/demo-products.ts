@@ -89,7 +89,7 @@ export const DEMO_FEATURED_PRODUCTS: DemoProduct[] = [
     _id: "demo-8",
     name: "Demo All-Star Surprise Pack",
     slug: "demo-all-star-pack",
-    price: 50.0,
+    price: 100.0,
     category: "Packages",
     stock: 15,
     featured: true,

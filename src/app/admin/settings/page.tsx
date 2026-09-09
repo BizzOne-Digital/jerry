@@ -158,7 +158,10 @@ export default function AdminSettingsPage() {
 
   return (
     <div>
-      <PageHeader title="Settings" description="Site-wide configuration" />
+      <PageHeader
+        title="Settings"
+        description="Update contact email, phone, address, business hours, and social media links shown on the site."
+      />
 
       <Tabs
         tabs={[

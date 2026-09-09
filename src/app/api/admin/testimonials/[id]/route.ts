@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { jsonError, jsonOk, serialize, withAdmin } from "@/lib/admin/api-helpers";
 import Testimonial from "@/models/Testimonial";
+import { deleteTestimonialUploads } from "@/lib/media/cleanup-uploads";
 import { revalidateTestimonials } from "@/lib/revalidation";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -28,6 +29,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   return withAdmin(async () => {
     const item = await Testimonial.findByIdAndDelete(id).lean();
     if (!item) return jsonError("Not found", 404);
+    await deleteTestimonialUploads(item);
     revalidateTestimonials();
     return jsonOk({ success: true });
   });

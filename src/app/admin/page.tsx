@@ -49,7 +49,43 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <PageHeader title="Dashboard" description="Overview of your store" />
+      <PageHeader
+        title="Dashboard"
+        description="Manage products, services, contact info, testimonials, FAQs, and customer questionnaires."
+      />
+
+      <div className="admin-card mb-8 p-5">
+        <h2 className="font-semibold">Admin Portal Quick Guide</h2>
+        <ul className="mt-3 grid gap-2 text-sm text-[var(--admin-muted)] sm:grid-cols-2">
+          <li>
+            <Link href="/admin/products" className="text-[var(--admin-accent)] hover:underline">Products</Link>
+            — add, edit, delete shop items and upload images
+          </li>
+          <li>
+            <Link href="/admin/services" className="text-[var(--admin-accent)] hover:underline">Services</Link>
+            — manage service cards and detail content
+          </li>
+          <li>
+            <Link href="/admin/settings" className="text-[var(--admin-accent)] hover:underline">Settings</Link>
+            — update email, phone, address, and social links
+          </li>
+          <li>
+            <Link href="/admin/testimonials" className="text-[var(--admin-accent)] hover:underline">Testimonials</Link>
+            — customer reviews and photos
+          </li>
+          <li>
+            <Link href="/admin/faqs" className="text-[var(--admin-accent)] hover:underline">FAQs</Link>
+            — site help questions and answers
+          </li>
+          <li>
+            <Link href="/admin/questionnaires" className="text-[var(--admin-accent)] hover:underline">Questionnaires</Link>
+            — collector profiles from customers
+          </li>
+        </ul>
+        <p className="mt-3 text-xs text-[var(--admin-muted)]">
+          Images upload to MongoDB via /api/upload and work on Vercel after deploy (no disk storage).
+        </p>
+      </div>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (

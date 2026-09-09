@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db/connect";
 import { requireAdmin } from "@/lib/auth/auth";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { ListRowActions } from "@/components/admin/list-row-actions";
 import Service from "@/models/Service";
 
 export default async function AdminServicesPage() {
@@ -14,7 +15,7 @@ export default async function AdminServicesPage() {
     <div>
       <PageHeader
         title="Services"
-        description="Manage service offerings"
+        description="Manage service offerings, descriptions, and card images."
         actions={
           <Link href="/admin/services/new" className="admin-btn admin-btn-primary text-sm">
             Add Service
@@ -26,6 +27,7 @@ export default async function AdminServicesPage() {
         <table className="admin-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Title</th>
               <th>Slug</th>
               <th>Status</th>
@@ -34,26 +36,41 @@ export default async function AdminServicesPage() {
             </tr>
           </thead>
           <tbody>
-            {services.map((service) => (
-              <tr key={String(service._id)}>
-                <td>{service.title}</td>
-                <td className="font-mono text-sm text-[var(--admin-muted)]">{service.slug}</td>
-                <td>
-                  <StatusBadge status={service.status} />
-                </td>
-                <td>{service.sortOrder}</td>
-                <td>
-                  <Link
-                    href={`/admin/services/${service._id}`}
-                    className="text-sm text-[var(--admin-accent)] hover:underline"
-                  >
-                    Edit
-                  </Link>
-                </td>
-              </tr>
-            ))}
+            {services.map((service) => {
+              const imageUrl = service.cardImage?.url;
+              return (
+                <tr key={String(service._id)}>
+                  <td>
+                    {imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={imageUrl} alt="" className="h-10 w-10 rounded object-cover" />
+                    ) : (
+                      <div className="flex h-10 w-10 items-center justify-center rounded bg-[var(--admin-border)] text-[10px] text-[var(--admin-muted)]">
+                        —
+                      </div>
+                    )}
+                  </td>
+                  <td>{service.title}</td>
+                  <td className="font-mono text-sm text-[var(--admin-muted)]">{service.slug}</td>
+                  <td>
+                    <StatusBadge status={service.status} />
+                  </td>
+                  <td>{service.sortOrder}</td>
+                  <td>
+                    <ListRowActions
+                      editHref={`/admin/services/${service._id}`}
+                      deleteEndpoint={`/api/admin/services/${service._id}`}
+                      itemLabel="service"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+        {services.length === 0 && (
+          <p className="p-4 text-sm text-[var(--admin-muted)]">No services yet. Add your first service.</p>
+        )}
       </div>
     </div>
   );

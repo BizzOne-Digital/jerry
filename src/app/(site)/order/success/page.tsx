@@ -31,7 +31,9 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
             with payment instructions within 24 hours.
           </p>
           <p className="mt-4 text-sm text-arena-muted">
-            Help us curate the perfect collectibles for you — share your favorite sports, teams, and players.
+            Want a more personalized experience? Complete our Collector Profile and tell us your favorite
+            sports, teams, players, and collecting goals — we will use it to curate better recommendations
+            and package fills for you.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             {order && (

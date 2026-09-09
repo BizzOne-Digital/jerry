@@ -9,6 +9,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/page-header";
 import { FormInput, FormSelect, FormTextarea, FormCheckbox } from "@/components/admin/form-fields";
+import { MultiImageField } from "@/components/admin/multi-image-field";
 import { CONTENT_STATUS, PRODUCT_CATEGORIES } from "@/types";
 
 const productSchema = z.object({
@@ -31,6 +32,7 @@ type ProductForm = z.infer<typeof productSchema>;
 export default function NewProductPage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const methods = useForm<ProductForm>({
     resolver: zodResolver(productSchema),
@@ -43,7 +45,10 @@ export default function NewProductPage() {
       const res = await fetch("/api/admin/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          images: imageUrls.map((url) => ({ url })),
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -91,6 +96,14 @@ export default function NewProductPage() {
             />
             <FormCheckbox name="featured" label="Featured" />
             <FormCheckbox name="onSale" label="On Sale" />
+            <div className="md:col-span-2">
+              <MultiImageField
+                values={imageUrls}
+                onChange={setImageUrls}
+                folder="products"
+                label="Product Images"
+              />
+            </div>
             <div className="md:col-span-2">
               <FormTextarea name="shortDescription" label="Short Description" />
             </div>
